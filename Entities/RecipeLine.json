@@ -1,0 +1,54 @@
+{
+  "name": "RecipeLine",
+  "type": "object",
+  "properties": {
+    "recipe_id": {
+      "type": "string"
+    },
+    "recipe_code": {
+      "type": "string"
+    },
+    "recipe_name": {
+      "type": "string"
+    },
+    "product_id": {
+      "type": "string"
+    },
+    "product_name": {
+      "type": "string"
+    },
+    "product_sku": {
+      "type": "string"
+    },
+    "quantity": {
+      "type": "number",
+      "default": 0
+    },
+    "unit_id": {
+      "type": "string"
+    },
+    "unit_code": {
+      "type": "string"
+    },
+    "quantity_base": {
+      "type": "number",
+      "description": "Cantidad en unidad base del producto"
+    },
+    "unit_cost_snapshot": {
+      "type": "number"
+    },
+    "line_cost": {
+      "type": "number",
+      "default": 0
+    },
+    "is_optional": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "recipe_id",
+    "product_id",
+    "quantity"
+  ]
+}

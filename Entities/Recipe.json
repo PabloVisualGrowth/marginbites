@@ -1,0 +1,65 @@
+{
+  "name": "Recipe",
+  "type": "object",
+  "properties": {
+    "recipe_code": {
+      "type": "string",
+      "description": "C\u00f3digo \u00fanico de receta"
+    },
+    "recipe_name": {
+      "type": "string"
+    },
+    "location_id": {
+      "type": "string",
+      "description": "ID local (null si es global)"
+    },
+    "yield_qty": {
+      "type": "number",
+      "default": 1
+    },
+    "yield_unit_id": {
+      "type": "string"
+    },
+    "yield_unit_code": {
+      "type": "string"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "sales_item_mapping_keys": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Claves para mapeo con items de venta"
+    },
+    "expected_waste_pct": {
+      "type": "number",
+      "default": 0
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "Entrantes",
+        "Principales",
+        "Postres",
+        "Bebidas",
+        "Otros"
+      ],
+      "default": "Principales"
+    },
+    "cost_per_portion": {
+      "type": "number",
+      "default": 0
+    },
+    "ingredients_count": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "recipe_code",
+    "recipe_name"
+  ]
+}

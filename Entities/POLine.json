@@ -1,0 +1,64 @@
+{
+  "name": "POLine",
+  "type": "object",
+  "properties": {
+    "purchase_order_id": {
+      "type": "string"
+    },
+    "po_number": {
+      "type": "string"
+    },
+    "product_id": {
+      "type": "string"
+    },
+    "product_name": {
+      "type": "string"
+    },
+    "product_sku": {
+      "type": "string"
+    },
+    "unit_id": {
+      "type": "string"
+    },
+    "unit_code": {
+      "type": "string"
+    },
+    "suggested_qty": {
+      "type": "number",
+      "default": 0
+    },
+    "ordered_qty": {
+      "type": "number",
+      "default": 0
+    },
+    "received_qty": {
+      "type": "number",
+      "default": 0
+    },
+    "unit_price_estimated": {
+      "type": "number",
+      "default": 0
+    },
+    "line_total_estimated": {
+      "type": "number",
+      "default": 0
+    },
+    "suggestion_reason": {
+      "type": "string"
+    },
+    "line_status": {
+      "type": "string",
+      "enum": [
+        "Open",
+        "Partial",
+        "Received",
+        "Cancelled"
+      ],
+      "default": "Open"
+    }
+  },
+  "required": [
+    "purchase_order_id",
+    "product_id"
+  ]
+}

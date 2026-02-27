@@ -1,0 +1,59 @@
+{
+  "name": "SystemError",
+  "type": "object",
+  "properties": {
+    "workflow_name": {
+      "type": "string"
+    },
+    "function_name": {
+      "type": "string"
+    },
+    "execution_id": {
+      "type": "string"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "default": "medium"
+    },
+    "error_message": {
+      "type": "string"
+    },
+    "error_stack": {
+      "type": "string"
+    },
+    "input_data_json": {
+      "type": "object"
+    },
+    "context_json": {
+      "type": "object"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Open",
+        "Acknowledged",
+        "Resolved"
+      ],
+      "default": "Open"
+    },
+    "resolved_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "resolved_by_user_id": {
+      "type": "string"
+    },
+    "location_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "error_message"
+  ]
+}

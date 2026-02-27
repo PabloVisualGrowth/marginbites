@@ -1,0 +1,102 @@
+{
+  "name": "GapAnalysis",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "location_id": {
+      "type": "string"
+    },
+    "location_name": {
+      "type": "string"
+    },
+    "food_cost_daily_id": {
+      "type": "string"
+    },
+    "driver_1_purchases_price_eur": {
+      "type": "number",
+      "default": 0,
+      "description": "Impacto por cambios de precio de compra"
+    },
+    "driver_2_reception_incidents_eur": {
+      "type": "number",
+      "default": 0,
+      "description": "Impacto por incidencias de recepci\u00f3n"
+    },
+    "driver_3_yield_waste_eur": {
+      "type": "number",
+      "default": 0,
+      "description": "Impacto por mermas de producci\u00f3n"
+    },
+    "driver_4_service_waste_eur": {
+      "type": "number",
+      "default": 0,
+      "description": "Impacto por waste de servicio"
+    },
+    "driver_1_pct": {
+      "type": "number",
+      "default": 0
+    },
+    "driver_2_pct": {
+      "type": "number",
+      "default": 0
+    },
+    "driver_3_pct": {
+      "type": "number",
+      "default": 0
+    },
+    "driver_4_pct": {
+      "type": "number",
+      "default": 0
+    },
+    "top_products": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "product_id": {
+            "type": "string"
+          },
+          "product_name": {
+            "type": "string"
+          },
+          "loss_eur": {
+            "type": "number"
+          },
+          "loss_pct": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "top_dishes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "recipe_id": {
+            "type": "string"
+          },
+          "recipe_name": {
+            "type": "string"
+          },
+          "loss_eur": {
+            "type": "number"
+          },
+          "qty_sold": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "analysis_json": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "date",
+    "location_id"
+  ]
+}

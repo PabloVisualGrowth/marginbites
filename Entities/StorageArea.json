@@ -1,0 +1,27 @@
+{
+  "name": "StorageArea",
+  "type": "object",
+  "properties": {
+    "location_id": {
+      "type": "string",
+      "description": "ID del local"
+    },
+    "code": {
+      "type": "string",
+      "description": "C\u00f3digo del \u00e1rea"
+    },
+    "name": {
+      "type": "string",
+      "description": "Nombre (C\u00e1mara, Congelador, Seco, Barra...)"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "location_id",
+    "code",
+    "name"
+  ]
+}

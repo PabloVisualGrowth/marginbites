@@ -1,0 +1,95 @@
+{
+  "name": "Recommendation",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "location_id": {
+      "type": "string"
+    },
+    "location_name": {
+      "type": "string"
+    },
+    "gap_analysis_id": {
+      "type": "string"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "High",
+        "Medium",
+        "Low"
+      ],
+      "default": "Medium"
+    },
+    "title": {
+      "type": "string"
+    },
+    "text": {
+      "type": "string"
+    },
+    "estimated_impact_eur": {
+      "type": "number",
+      "default": 0
+    },
+    "related_driver": {
+      "type": "string",
+      "enum": [
+        "driver_1",
+        "driver_2",
+        "driver_3",
+        "driver_4"
+      ]
+    },
+    "related_product_id": {
+      "type": "string"
+    },
+    "related_product_name": {
+      "type": "string"
+    },
+    "related_recipe_id": {
+      "type": "string"
+    },
+    "related_recipe_name": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "rules",
+        "llm"
+      ],
+      "default": "rules"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Open",
+        "Acknowledged",
+        "In_Progress",
+        "Done",
+        "Dismissed"
+      ],
+      "default": "Open"
+    },
+    "action_type": {
+      "type": "string",
+      "enum": [
+        "review_prices",
+        "check_reception",
+        "inventory_express",
+        "review_waste",
+        "review_portions",
+        "negotiate_supplier",
+        "other"
+      ]
+    }
+  },
+  "required": [
+    "date",
+    "location_id",
+    "text"
+  ]
+}

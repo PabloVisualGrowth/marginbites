@@ -1,0 +1,39 @@
+{
+  "name": "SalesItem",
+  "type": "object",
+  "properties": {
+    "external_item_id": {
+      "type": "string",
+      "description": "ID externo del TPV"
+    },
+    "name": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "recipe_id": {
+      "type": "string"
+    },
+    "recipe_name": {
+      "type": "string"
+    },
+    "location_id": {
+      "type": "string"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "mapping_confidence": {
+      "type": "number"
+    },
+    "price": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

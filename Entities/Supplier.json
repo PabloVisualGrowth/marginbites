@@ -1,0 +1,58 @@
+{
+  "name": "Supplier",
+  "type": "object",
+  "properties": {
+    "supplier_code": {
+      "type": "string",
+      "description": "C\u00f3digo \u00fanico del proveedor"
+    },
+    "name": {
+      "type": "string",
+      "description": "Nombre del proveedor"
+    },
+    "tax_id": {
+      "type": "string",
+      "description": "CIF/NIF"
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "preferred_order_channel": {
+      "type": "string",
+      "enum": [
+        "email",
+        "whatsapp"
+      ],
+      "default": "email"
+    },
+    "whatsapp_number": {
+      "type": "string"
+    },
+    "payment_terms": {
+      "type": "string",
+      "description": "Condiciones de pago"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "matching_aliases": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Alias para matching OCR"
+    },
+    "address": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "supplier_code",
+    "name"
+  ]
+}

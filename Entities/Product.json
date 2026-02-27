@@ -1,0 +1,96 @@
+{
+  "name": "Product",
+  "type": "object",
+  "properties": {
+    "sku": {
+      "type": "string",
+      "description": "SKU \u00fanico del producto"
+    },
+    "product_name": {
+      "type": "string",
+      "description": "Nombre del producto"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "Carne",
+        "Pescado",
+        "Verduras",
+        "Lacteos",
+        "Secos",
+        "Bebidas",
+        "Otros"
+      ],
+      "description": "Categor\u00eda"
+    },
+    "base_unit_id": {
+      "type": "string",
+      "description": "ID de unidad base"
+    },
+    "base_unit_code": {
+      "type": "string",
+      "description": "C\u00f3digo de unidad base (kg, l, ud...)"
+    },
+    "purchase_unit_id": {
+      "type": "string",
+      "description": "ID de unidad de compra"
+    },
+    "purchase_unit_code": {
+      "type": "string",
+      "description": "C\u00f3digo de unidad de compra"
+    },
+    "conversion_purchase_to_base": {
+      "type": "number",
+      "default": 1,
+      "description": "Factor conversi\u00f3n compra a base"
+    },
+    "avg_price": {
+      "type": "number",
+      "default": 0,
+      "description": "Precio promedio ponderado (EUR)"
+    },
+    "current_reference_price": {
+      "type": "number",
+      "description": "Precio de referencia actual"
+    },
+    "default_supplier_id": {
+      "type": "string",
+      "description": "ID del proveedor por defecto"
+    },
+    "default_supplier_name": {
+      "type": "string",
+      "description": "Nombre del proveedor por defecto"
+    },
+    "is_key_product": {
+      "type": "boolean",
+      "default": false,
+      "description": "Producto clave para control"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "barcode": {
+      "type": "string"
+    },
+    "matching_aliases": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Alias para matching OCR"
+    },
+    "preferred_storage_area_id": {
+      "type": "string"
+    },
+    "min_stock_level": {
+      "type": "number",
+      "description": "Nivel m\u00ednimo de stock"
+    }
+  },
+  "required": [
+    "sku",
+    "product_name",
+    "category"
+  ]
+}

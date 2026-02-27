@@ -1,0 +1,44 @@
+{
+  "name": "IntegrationSyncState",
+  "type": "object",
+  "properties": {
+    "integration_type": {
+      "type": "string",
+      "enum": [
+        "tpv",
+        "email_ingestion",
+        "ocr",
+        "notifications",
+        "whatsapp"
+      ]
+    },
+    "location_id": {
+      "type": "string"
+    },
+    "key": {
+      "type": "string"
+    },
+    "value_json": {
+      "type": "object"
+    },
+    "last_sync_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_sync_status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "error",
+        "partial"
+      ]
+    },
+    "error_message": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "integration_type",
+    "key"
+  ]
+}

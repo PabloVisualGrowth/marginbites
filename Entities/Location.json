@@ -1,0 +1,65 @@
+{
+  "name": "Location",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "C\u00f3digo \u00fanico del local"
+    },
+    "name": {
+      "type": "string",
+      "description": "Nombre del local"
+    },
+    "address": {
+      "type": "string",
+      "description": "Direcci\u00f3n completa"
+    },
+    "timezone": {
+      "type": "string",
+      "default": "Europe/Madrid",
+      "description": "Zona horaria"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "settings": {
+      "type": "object",
+      "description": "Configuraci\u00f3n del local (umbrales, auto_post, etc.)",
+      "properties": {
+        "reorder_days_threshold": {
+          "type": "number",
+          "default": 3
+        },
+        "target_coverage_days": {
+          "type": "number",
+          "default": 7
+        },
+        "ocr_confidence_warning": {
+          "type": "number",
+          "default": 0.8
+        },
+        "inventory_variance_flag_pct": {
+          "type": "number",
+          "default": 0.15
+        },
+        "gap_warning_pct": {
+          "type": "number",
+          "default": 0.02
+        },
+        "gap_critical_pct": {
+          "type": "number",
+          "default": 0.05
+        },
+        "auto_post_inventory": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    }
+  },
+  "required": [
+    "code",
+    "name"
+  ]
+}

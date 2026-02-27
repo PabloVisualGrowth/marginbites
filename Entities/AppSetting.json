@@ -1,0 +1,31 @@
+{
+  "name": "AppSetting",
+  "type": "object",
+  "properties": {
+    "scope": {
+      "type": "string",
+      "enum": [
+        "global",
+        "location"
+      ],
+      "default": "global"
+    },
+    "scope_id": {
+      "type": "string",
+      "description": "ID del local si scope=location"
+    },
+    "key": {
+      "type": "string"
+    },
+    "value_json": {
+      "type": "object"
+    },
+    "description": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "scope",
+    "key"
+  ]
+}

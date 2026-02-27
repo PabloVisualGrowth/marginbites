@@ -1,0 +1,38 @@
+{
+  "name": "Unit",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "C\u00f3digo de unidad (kg, g, l, ml, ud, caja...)"
+    },
+    "name": {
+      "type": "string",
+      "description": "Nombre completo"
+    },
+    "unit_type": {
+      "type": "string",
+      "enum": [
+        "weight",
+        "volume",
+        "count",
+        "package"
+      ],
+      "description": "Tipo de unidad"
+    },
+    "base_unit_code": {
+      "type": "string",
+      "description": "C\u00f3digo de unidad base para conversi\u00f3n"
+    },
+    "conversion_factor_to_base": {
+      "type": "number",
+      "default": 1,
+      "description": "Factor de conversi\u00f3n a unidad base (ej: g->kg = 0.001)"
+    }
+  },
+  "required": [
+    "code",
+    "name",
+    "unit_type"
+  ]
+}

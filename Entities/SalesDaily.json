@@ -1,0 +1,54 @@
+{
+  "name": "SalesDaily",
+  "type": "object",
+  "properties": {
+    "sale_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "location_id": {
+      "type": "string"
+    },
+    "location_name": {
+      "type": "string"
+    },
+    "sales_item_id": {
+      "type": "string"
+    },
+    "sales_item_name": {
+      "type": "string"
+    },
+    "recipe_id": {
+      "type": "string"
+    },
+    "quantity_sold": {
+      "type": "number",
+      "default": 0
+    },
+    "gross_sales_amount": {
+      "type": "number",
+      "default": 0
+    },
+    "net_sales_amount": {
+      "type": "number",
+      "default": 0
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "tpv_webhook",
+        "csv_import",
+        "manual"
+      ],
+      "default": "manual"
+    },
+    "source_sync_batch_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "sale_date",
+    "location_id",
+    "sales_item_id"
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "name": "Inventory",
+  "type": "object",
+  "properties": {
+    "inventory_number": {
+      "type": "string",
+      "description": "N\u00famero \u00fanico (INV-YYYY-####)"
+    },
+    "location_id": {
+      "type": "string"
+    },
+    "location_name": {
+      "type": "string"
+    },
+    "inventory_type": {
+      "type": "string",
+      "enum": [
+        "full",
+        "express",
+        "anomaly_triggered"
+      ],
+      "default": "full"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Draft",
+        "In_Progress",
+        "Submitted",
+        "Reviewed",
+        "Posted",
+        "Closed",
+        "Cancelled"
+      ],
+      "default": "Draft"
+    },
+    "count_scope": {
+      "type": "string",
+      "enum": [
+        "all_products",
+        "key_products",
+        "custom_list"
+      ],
+      "default": "all_products"
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reviewed_by_user_id": {
+      "type": "string"
+    },
+    "reviewed_by_name": {
+      "type": "string"
+    },
+    "auto_post_corrections": {
+      "type": "boolean",
+      "default": false
+    },
+    "anomaly_reasons": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "notes": {
+      "type": "string"
+    },
+    "lines_count": {
+      "type": "number",
+      "default": 0
+    },
+    "lines_counted": {
+      "type": "number",
+      "default": 0
+    },
+    "lines_flagged": {
+      "type": "number",
+      "default": 0
+    },
+    "total_variance_value": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "location_id",
+    "inventory_type"
+  ]
+}

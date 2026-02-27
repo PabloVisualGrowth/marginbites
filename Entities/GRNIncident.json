@@ -1,0 +1,59 @@
+{
+  "name": "GRNIncident",
+  "type": "object",
+  "properties": {
+    "grn_id": {
+      "type": "string"
+    },
+    "grn_number": {
+      "type": "string"
+    },
+    "grn_line_id": {
+      "type": "string"
+    },
+    "incident_type": {
+      "type": "string",
+      "enum": [
+        "price_mismatch",
+        "qty_short",
+        "damaged",
+        "wrong_product",
+        "missing_item",
+        "extra_item",
+        "other"
+      ]
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default": "medium"
+    },
+    "description": {
+      "type": "string"
+    },
+    "impact_eur": {
+      "type": "number",
+      "default": 0
+    },
+    "resolved": {
+      "type": "boolean",
+      "default": false
+    },
+    "resolved_by_user_id": {
+      "type": "string"
+    },
+    "resolved_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "grn_id",
+    "incident_type",
+    "description"
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "name": "FoodCostDaily",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "location_id": {
+      "type": "string"
+    },
+    "location_name": {
+      "type": "string"
+    },
+    "sales_amount": {
+      "type": "number",
+      "default": 0
+    },
+    "theoretical_cogs": {
+      "type": "number",
+      "default": 0
+    },
+    "actual_cogs": {
+      "type": "number",
+      "default": 0
+    },
+    "theoretical_fc_pct": {
+      "type": "number",
+      "default": 0
+    },
+    "actual_fc_pct": {
+      "type": "number",
+      "default": 0
+    },
+    "gap_pct": {
+      "type": "number",
+      "default": 0
+    },
+    "gap_eur": {
+      "type": "number",
+      "default": 0
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Calculated",
+        "Reviewed"
+      ],
+      "default": "Calculated"
+    },
+    "opening_stock_value": {
+      "type": "number",
+      "default": 0
+    },
+    "purchases_value": {
+      "type": "number",
+      "default": 0
+    },
+    "closing_stock_value": {
+      "type": "number",
+      "default": 0
+    },
+    "adjustments_value": {
+      "type": "number",
+      "default": 0
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "date",
+    "location_id"
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "name": "GRN",
+  "type": "object",
+  "properties": {
+    "grn_number": {
+      "type": "string",
+      "description": "N\u00famero de recepci\u00f3n (GRN-YYYY-####)"
+    },
+    "location_id": {
+      "type": "string"
+    },
+    "location_name": {
+      "type": "string"
+    },
+    "supplier_id": {
+      "type": "string"
+    },
+    "supplier_name": {
+      "type": "string"
+    },
+    "purchase_order_id": {
+      "type": "string"
+    },
+    "po_number": {
+      "type": "string"
+    },
+    "delivery_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "albaran_number": {
+      "type": "string"
+    },
+    "albaran_file_url": {
+      "type": "string"
+    },
+    "ocr_processed": {
+      "type": "boolean",
+      "default": false
+    },
+    "ocr_confidence": {
+      "type": "number",
+      "default": 0
+    },
+    "ocr_provider": {
+      "type": "string"
+    },
+    "ocr_raw_payload": {
+      "type": "object"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Draft",
+        "OCR_Processing",
+        "Pending_Validation",
+        "Validated",
+        "Posted",
+        "Rejected"
+      ],
+      "default": "Draft"
+    },
+    "total_amount": {
+      "type": "number",
+      "default": 0
+    },
+    "validation_notes": {
+      "type": "string"
+    },
+    "validated_by_user_id": {
+      "type": "string"
+    },
+    "validated_by_name": {
+      "type": "string"
+    },
+    "validated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "posted_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "lines_count": {
+      "type": "number",
+      "default": 0
+    },
+    "incidents_count": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "location_id"
+  ]
+}

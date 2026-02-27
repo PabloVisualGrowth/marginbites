@@ -1,0 +1,72 @@
+{
+  "name": "StockOnHand",
+  "type": "object",
+  "properties": {
+    "location_id": {
+      "type": "string"
+    },
+    "location_name": {
+      "type": "string"
+    },
+    "storage_area_id": {
+      "type": "string"
+    },
+    "storage_area_name": {
+      "type": "string"
+    },
+    "product_id": {
+      "type": "string"
+    },
+    "product_name": {
+      "type": "string"
+    },
+    "product_sku": {
+      "type": "string"
+    },
+    "product_category": {
+      "type": "string"
+    },
+    "quantity_base": {
+      "type": "number",
+      "default": 0,
+      "description": "Cantidad en unidad base"
+    },
+    "base_unit_code": {
+      "type": "string"
+    },
+    "avg_cost": {
+      "type": "number",
+      "default": 0,
+      "description": "Coste promedio ponderado"
+    },
+    "total_value": {
+      "type": "number",
+      "default": 0,
+      "description": "Valor total (qty * avg_cost)"
+    },
+    "last_movement_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "is_negative": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_key_product": {
+      "type": "boolean",
+      "default": false
+    },
+    "days_of_stock": {
+      "type": "number",
+      "description": "D\u00edas de cobertura estimados"
+    },
+    "needs_reorder": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "location_id",
+    "product_id"
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "name": "TheoreticalConsumption",
+  "type": "object",
+  "properties": {
+    "consumption_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "location_id": {
+      "type": "string"
+    },
+    "location_name": {
+      "type": "string"
+    },
+    "product_id": {
+      "type": "string"
+    },
+    "product_name": {
+      "type": "string"
+    },
+    "product_sku": {
+      "type": "string"
+    },
+    "sales_item_id": {
+      "type": "string"
+    },
+    "sales_item_name": {
+      "type": "string"
+    },
+    "recipe_id": {
+      "type": "string"
+    },
+    "recipe_name": {
+      "type": "string"
+    },
+    "quantity_consumed_base": {
+      "type": "number",
+      "default": 0
+    },
+    "unit_cost": {
+      "type": "number",
+      "default": 0
+    },
+    "total_cost": {
+      "type": "number",
+      "default": 0
+    },
+    "source_sales_daily_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "consumption_date",
+    "location_id",
+    "product_id"
+  ]
+}
