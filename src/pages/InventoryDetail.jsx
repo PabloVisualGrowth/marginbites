@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import { marginbites } from '@/api/marginbitesClient';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { format } from 'date-fns';
@@ -32,7 +32,7 @@ export default function InventoryDetail({ user }) {
   const { data: inventory, isLoading } = useQuery({
     queryKey: ['inventory', inventoryId],
     queryFn: async () => {
-      const data = await base44.entities.Inventory.filter({ id: inventoryId });
+      const data = await marginbites.entities.Inventory.filter({ id: inventoryId });
       return data[0];
     },
     enabled: !!inventoryId
@@ -40,7 +40,7 @@ export default function InventoryDetail({ user }) {
 
   const { data: lines = [], isLoading: loadingLines } = useQuery({
     queryKey: ['inventoryLines', inventoryId],
-    queryFn: () => base44.entities.InventoryLine.filter({ inventory_id: inventoryId }),
+    queryFn: () => marginbites.entities.InventoryLine.filter({ inventory_id: inventoryId }),
     enabled: !!inventoryId
   });
 
@@ -52,7 +52,7 @@ export default function InventoryDetail({ user }) {
       const varianceValue = variance * (line?.avg_cost_snapshot || 0);
       const isFlagged = Math.abs(variancePct) > 0.15;
 
-      await base44.entities.InventoryLine.update(lineId, {
+      await marginbites.entities.InventoryLine.update(lineId, {
         qty_counted_base: qtyCountedBase,
         variance_qty_base: variance,
         variance_pct: variancePct,
@@ -66,12 +66,12 @@ export default function InventoryDetail({ user }) {
       });
 
       // Actualizar contadores del inventario
-      const updatedLines = await base44.entities.InventoryLine.filter({ inventory_id: inventoryId });
+      const updatedLines = await marginbites.entities.InventoryLine.filter({ inventory_id: inventoryId });
       const countedLines = updatedLines.filter(l => l.line_status === 'Counted').length;
       const flaggedLines = updatedLines.filter(l => l.is_flagged).length;
       const totalVariance = updatedLines.reduce((sum, l) => sum + (l.variance_value_eur || 0), 0);
 
-      await base44.entities.Inventory.update(inventoryId, {
+      await marginbites.entities.Inventory.update(inventoryId, {
         lines_counted: countedLines,
         lines_flagged: flaggedLines,
         total_variance_value: totalVariance
@@ -89,7 +89,7 @@ export default function InventoryDetail({ user }) {
 
   const submitInventoryMutation = useMutation({
     mutationFn: async () => {
-      await base44.entities.Inventory.update(inventoryId, {
+      await marginbites.entities.Inventory.update(inventoryId, {
         status: 'Submitted',
         completed_at: new Date().toISOString()
       });
@@ -102,7 +102,7 @@ export default function InventoryDetail({ user }) {
 
   const postCorrectionsMutation = useMutation({
     mutationFn: async () => {
-      const movCount = await base44.entities.LedgerMovement.list('-created_date', 1);
+      const movCount = await marginbites.entities.LedgerMovement.list('-created_date', 1);
       let movNum = movCount.length > 0 ? parseInt(movCount[0].movement_number?.split('-')[2] || '0') + 1 : 1;
 
       for (const line of lines) {
@@ -110,7 +110,7 @@ export default function InventoryDetail({ user }) {
 
         const movType = line.variance_qty_base > 0 ? 'ADJUSTMENT_IN' : 'ADJUSTMENT_OUT';
 
-        await base44.entities.LedgerMovement.create({
+        await marginbites.entities.LedgerMovement.create({
           movement_number: `MOV-${new Date().getFullYear()}-${String(movNum++).padStart(6, '0')}`,
           movement_date: format(new Date(), 'yyyy-MM-dd'),
           location_id: inventory.location_id,
@@ -129,7 +129,7 @@ export default function InventoryDetail({ user }) {
         });
 
         // Actualizar stock
-        const stocks = await base44.entities.StockOnHand.filter({
+        const stocks = await marginbites.entities.StockOnHand.filter({
           location_id: inventory.location_id,
           product_id: line.product_id
         });
@@ -137,7 +137,7 @@ export default function InventoryDetail({ user }) {
         if (stocks.length > 0) {
           const stock = stocks[0];
           const newQty = line.qty_counted_base;
-          await base44.entities.StockOnHand.update(stock.id, {
+          await marginbites.entities.StockOnHand.update(stock.id, {
             quantity_base: newQty,
             total_value: newQty * (stock.avg_cost || 0),
             is_negative: newQty < 0,
@@ -145,16 +145,16 @@ export default function InventoryDetail({ user }) {
           });
         }
 
-        await base44.entities.InventoryLine.update(line.id, {
+        await marginbites.entities.InventoryLine.update(line.id, {
           line_status: 'Posted'
         });
       }
 
-      await base44.entities.Inventory.update(inventoryId, {
+      await marginbites.entities.Inventory.update(inventoryId, {
         status: 'Posted'
       });
 
-      await base44.entities.AuditLog.create({
+      await marginbites.entities.AuditLog.create({
         actor_user_id: user?.id,
         actor_email: user?.email,
         actor_name: user?.full_name,

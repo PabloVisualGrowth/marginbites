@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import { marginbites } from '@/api/marginbitesClient';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { format } from 'date-fns';
@@ -63,7 +63,7 @@ export default function GRNDetail({ user }) {
   const { data: grn, isLoading } = useQuery({
     queryKey: ['grn', grnId],
     queryFn: async () => {
-      const data = await base44.entities.GRN.filter({ id: grnId });
+      const data = await marginbites.entities.GRN.filter({ id: grnId });
       return data[0];
     },
     enabled: !!grnId
@@ -71,24 +71,24 @@ export default function GRNDetail({ user }) {
 
   const { data: lines = [] } = useQuery({
     queryKey: ['grnLines', grnId],
-    queryFn: () => base44.entities.GRNLine.filter({ grn_id: grnId }),
+    queryFn: () => marginbites.entities.GRNLine.filter({ grn_id: grnId }),
     enabled: !!grnId
   });
 
   const { data: incidents = [] } = useQuery({
     queryKey: ['grnIncidents', grnId],
-    queryFn: () => base44.entities.GRNIncident.filter({ grn_id: grnId }),
+    queryFn: () => marginbites.entities.GRNIncident.filter({ grn_id: grnId }),
     enabled: !!grnId
   });
 
   const { data: products = [] } = useQuery({
     queryKey: ['products'],
-    queryFn: () => base44.entities.Product.filter({ is_active: true }),
+    queryFn: () => marginbites.entities.Product.filter({ is_active: true }),
   });
 
   const validateMutation = useMutation({
     mutationFn: async () => {
-      await base44.entities.GRN.update(grnId, {
+      await marginbites.entities.GRN.update(grnId, {
         status: 'Validated',
         validation_notes: validationNotes,
         validated_by_user_id: user?.id,
@@ -96,7 +96,7 @@ export default function GRNDetail({ user }) {
         validated_at: new Date().toISOString()
       });
 
-      await base44.entities.AuditLog.create({
+      await marginbites.entities.AuditLog.create({
         actor_user_id: user?.id,
         actor_email: user?.email,
         actor_name: user?.full_name,
@@ -119,13 +119,13 @@ export default function GRNDetail({ user }) {
   const postMutation = useMutation({
     mutationFn: async () => {
       // Crear movimientos de ledger
-      const movCount = await base44.entities.LedgerMovement.list('-created_date', 1);
+      const movCount = await marginbites.entities.LedgerMovement.list('-created_date', 1);
       let movNum = movCount.length > 0 ? parseInt(movCount[0].movement_number?.split('-')[2] || '0') + 1 : 1;
 
       for (const line of lines) {
         if (!line.product_id) continue;
 
-        await base44.entities.LedgerMovement.create({
+        await marginbites.entities.LedgerMovement.create({
           movement_number: `MOV-${new Date().getFullYear()}-${String(movNum++).padStart(6, '0')}`,
           movement_date: grn.delivery_date || format(new Date(), 'yyyy-MM-dd'),
           location_id: grn.location_id,
@@ -145,7 +145,7 @@ export default function GRNDetail({ user }) {
         });
 
         // Actualizar stock
-        const existingStock = await base44.entities.StockOnHand.filter({
+        const existingStock = await marginbites.entities.StockOnHand.filter({
           location_id: grn.location_id,
           product_id: line.product_id
         });
@@ -163,7 +163,7 @@ export default function GRNDetail({ user }) {
             ? ((oldQty * oldAvgCost) + (inQty * inCost)) / newQty 
             : inCost;
 
-          await base44.entities.StockOnHand.update(stock.id, {
+          await marginbites.entities.StockOnHand.update(stock.id, {
             quantity_base: newQty,
             avg_cost: newAvgCost,
             total_value: newQty * newAvgCost,
@@ -172,7 +172,7 @@ export default function GRNDetail({ user }) {
           });
         } else {
           const product = products.find(p => p.id === line.product_id);
-          await base44.entities.StockOnHand.create({
+          await marginbites.entities.StockOnHand.create({
             location_id: grn.location_id,
             location_name: grn.location_name,
             product_id: line.product_id,
@@ -189,12 +189,12 @@ export default function GRNDetail({ user }) {
         }
       }
 
-      await base44.entities.GRN.update(grnId, {
+      await marginbites.entities.GRN.update(grnId, {
         status: 'Posted',
         posted_at: new Date().toISOString()
       });
 
-      await base44.entities.AuditLog.create({
+      await marginbites.entities.AuditLog.create({
         actor_user_id: user?.id,
         actor_email: user?.email,
         actor_name: user?.full_name,
@@ -218,7 +218,7 @@ export default function GRNDetail({ user }) {
 
   const rejectMutation = useMutation({
     mutationFn: async () => {
-      await base44.entities.GRN.update(grnId, {
+      await marginbites.entities.GRN.update(grnId, {
         status: 'Rejected',
         validation_notes: validationNotes
       });
@@ -231,7 +231,7 @@ export default function GRNDetail({ user }) {
 
   const createIncidentMutation = useMutation({
     mutationFn: async (data) => {
-      await base44.entities.GRNIncident.create({
+      await marginbites.entities.GRNIncident.create({
         ...data,
         grn_id: grnId,
         grn_number: grn?.grn_number

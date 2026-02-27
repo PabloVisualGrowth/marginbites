@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import { marginbites } from '@/api/marginbitesClient';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { format } from 'date-fns';
@@ -54,7 +54,7 @@ export default function Stock({ selectedLocationId, user }) {
     queryKey: ['stockOnHand', selectedLocationId],
     queryFn: async () => {
       if (!selectedLocationId) return [];
-      return base44.entities.StockOnHand.filter({ location_id: selectedLocationId });
+      return marginbites.entities.StockOnHand.filter({ location_id: selectedLocationId });
     },
     enabled: !!selectedLocationId
   });
@@ -63,7 +63,7 @@ export default function Stock({ selectedLocationId, user }) {
     queryKey: ['ledgerMovements', selectedLocationId],
     queryFn: async () => {
       if (!selectedLocationId) return [];
-      return base44.entities.LedgerMovement.filter(
+      return marginbites.entities.LedgerMovement.filter(
         { location_id: selectedLocationId },
         '-movement_date',
         100
@@ -77,10 +77,10 @@ export default function Stock({ selectedLocationId, user }) {
       const stock = stockData.find(s => s.product_id === productId);
       const movementType = quantity >= 0 ? 'ADJUSTMENT_IN' : 'ADJUSTMENT_OUT';
       
-      const movCount = await base44.entities.LedgerMovement.list('-created_date', 1);
+      const movCount = await marginbites.entities.LedgerMovement.list('-created_date', 1);
       const movNum = movCount.length > 0 ? parseInt(movCount[0].movement_number?.split('-')[2] || '0') + 1 : 1;
 
-      await base44.entities.LedgerMovement.create({
+      await marginbites.entities.LedgerMovement.create({
         movement_number: `MOV-${new Date().getFullYear()}-${String(movNum).padStart(6, '0')}`,
         movement_date: format(new Date(), 'yyyy-MM-dd'),
         location_id: selectedLocationId,
@@ -101,7 +101,7 @@ export default function Stock({ selectedLocationId, user }) {
       // Actualizar stock
       const newQty = (stock?.quantity_base || 0) + quantity;
       if (stock) {
-        await base44.entities.StockOnHand.update(stock.id, {
+        await marginbites.entities.StockOnHand.update(stock.id, {
           quantity_base: newQty,
           total_value: newQty * (stock.avg_cost || 0),
           is_negative: newQty < 0,
@@ -110,7 +110,7 @@ export default function Stock({ selectedLocationId, user }) {
       }
 
       // Registrar auditoría
-      await base44.entities.AuditLog.create({
+      await marginbites.entities.AuditLog.create({
         actor_user_id: user?.id,
         actor_email: user?.email,
         actor_name: user?.full_name,

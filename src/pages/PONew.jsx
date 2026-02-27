@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import { marginbites } from '@/api/marginbitesClient';
 import { Link, useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { format } from 'date-fns';
@@ -37,12 +37,12 @@ export default function PONew({ selectedLocationId }) {
 
   const { data: suppliers = [] } = useQuery({
     queryKey: ['suppliers'],
-    queryFn: () => base44.entities.Supplier.filter({ is_active: true }),
+    queryFn: () => marginbites.entities.Supplier.filter({ is_active: true }),
   });
 
   const { data: products = [] } = useQuery({
     queryKey: ['products'],
-    queryFn: () => base44.entities.Product.filter({ is_active: true }),
+    queryFn: () => marginbites.entities.Product.filter({ is_active: true }),
   });
 
   const selectedSupplier = suppliers.find(s => s.id === supplierId);
@@ -50,12 +50,12 @@ export default function PONew({ selectedLocationId }) {
 
   const createPOMutation = useMutation({
     mutationFn: async () => {
-      const poCount = await base44.entities.PurchaseOrder.list('-created_date', 1);
+      const poCount = await marginbites.entities.PurchaseOrder.list('-created_date', 1);
       const poNum = poCount.length > 0 ? parseInt(poCount[0].po_number?.split('-')[2] || '0') + 1 : 1;
 
       const totalAmount = lines.reduce((sum, l) => sum + (l.ordered_qty * l.unit_price), 0);
 
-      const po = await base44.entities.PurchaseOrder.create({
+      const po = await marginbites.entities.PurchaseOrder.create({
         po_number: `PO-${new Date().getFullYear()}-${String(poNum).padStart(4, '0')}`,
         location_id: selectedLocationId,
         supplier_id: supplierId,
@@ -70,7 +70,7 @@ export default function PONew({ selectedLocationId }) {
       });
 
       for (const line of lines) {
-        await base44.entities.POLine.create({
+        await marginbites.entities.POLine.create({
           purchase_order_id: po.id,
           po_number: po.po_number,
           product_id: line.product_id,

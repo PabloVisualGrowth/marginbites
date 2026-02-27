@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import { marginbites } from '@/api/marginbitesClient';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { format } from 'date-fns';
@@ -61,21 +61,21 @@ export default function PurchaseOrders({ selectedLocationId }) {
       if (!selectedLocationId) return [];
       const filters = { location_id: selectedLocationId };
       if (statusFilter !== 'all') filters.status = statusFilter;
-      return base44.entities.PurchaseOrder.filter(filters, '-order_date', 50);
+      return marginbites.entities.PurchaseOrder.filter(filters, '-order_date', 50);
     },
     enabled: !!selectedLocationId
   });
 
   const { data: suppliers = [] } = useQuery({
     queryKey: ['suppliers'],
-    queryFn: () => base44.entities.Supplier.filter({ is_active: true }),
+    queryFn: () => marginbites.entities.Supplier.filter({ is_active: true }),
   });
 
   const { data: stockData = [] } = useQuery({
     queryKey: ['stockForSuggestions', selectedLocationId],
     queryFn: async () => {
       if (!selectedLocationId) return [];
-      return base44.entities.StockOnHand.filter({ 
+      return marginbites.entities.StockOnHand.filter({ 
         location_id: selectedLocationId,
         needs_reorder: true 
       });
@@ -86,7 +86,7 @@ export default function PurchaseOrders({ selectedLocationId }) {
   const generateSuggestionsMutation = useMutation({
     mutationFn: async () => {
       // Simular generación de sugerencias de pedido
-      const products = await base44.entities.Product.filter({ is_active: true });
+      const products = await marginbites.entities.Product.filter({ is_active: true });
       const stockMap = {};
       stockData.forEach(s => { stockMap[s.product_id] = s; });
       
@@ -108,14 +108,14 @@ export default function PurchaseOrders({ selectedLocationId }) {
       }
 
       // Crear POs sugeridas
-      const poCount = await base44.entities.PurchaseOrder.list('-created_date', 1);
+      const poCount = await marginbites.entities.PurchaseOrder.list('-created_date', 1);
       let poNum = poCount.length > 0 ? parseInt(poCount[0].po_number?.split('-')[2] || '0') + 1 : 1;
 
       for (const [supplierId, items] of Object.entries(bySupplier)) {
         const supplier = suppliers.find(s => s.id === supplierId);
         if (!supplier || items.length === 0) continue;
 
-        const po = await base44.entities.PurchaseOrder.create({
+        const po = await marginbites.entities.PurchaseOrder.create({
           po_number: `PO-${new Date().getFullYear()}-${String(poNum++).padStart(4, '0')}`,
           location_id: selectedLocationId,
           supplier_id: supplierId,
@@ -128,7 +128,7 @@ export default function PurchaseOrders({ selectedLocationId }) {
         });
 
         for (const item of items) {
-          await base44.entities.POLine.create({
+          await marginbites.entities.POLine.create({
             purchase_order_id: po.id,
             po_number: po.po_number,
             product_id: item.product.id,
@@ -161,7 +161,7 @@ export default function PurchaseOrders({ selectedLocationId }) {
 
   const sendOrderMutation = useMutation({
     mutationFn: async ({ orderId, channel }) => {
-      await base44.entities.PurchaseOrder.update(orderId, {
+      await marginbites.entities.PurchaseOrder.update(orderId, {
         status: 'Sent',
         sent_via: channel,
         sent_at: new Date().toISOString()

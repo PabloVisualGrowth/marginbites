@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { base44 } from '@/api/base44Client';
+import { marginbites } from '@/api/marginbitesClient';
 import { useQuery } from '@tanstack/react-query';
 import { createPageUrl } from '@/utils';
 import { 
@@ -35,17 +35,17 @@ export default function Layout({ children, currentPageName }) {
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
-    queryFn: () => base44.auth.me(),
+    queryFn: () => marginbites.auth.me(),
   });
 
   const { data: locations = [] } = useQuery({
     queryKey: ['locations'],
-    queryFn: () => base44.entities.Location.list(),
+    queryFn: () => marginbites.entities.Location.list(),
   });
 
   const { data: notifications = [] } = useQuery({
     queryKey: ['notifications', 'unread'],
-    queryFn: () => base44.entities.Notification.filter({ status: 'Pending' }, '-created_date', 10),
+    queryFn: () => marginbites.entities.Notification.filter({ status: 'Pending' }, '-created_date', 10),
   });
 
   const unreadCount = notifications.length;
@@ -60,7 +60,7 @@ export default function Layout({ children, currentPageName }) {
   const selectedLocation = locations.find(l => l.id === selectedLocationId);
 
   const handleLogout = () => {
-    base44.auth.logout();
+    marginbites.auth.logout();
   };
 
   const userRole = user?.role || 'chef';

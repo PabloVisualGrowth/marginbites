@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import { marginbites } from '@/api/marginbitesClient';
 import { format } from 'date-fns';
 import {
   ChefHat, ShoppingBag, Upload, Search, Plus, Eye,
@@ -47,19 +47,19 @@ export default function SalesRecipes({ selectedLocationId }) {
 
   const { data: recipes = [], isLoading: loadingRecipes } = useQuery({
     queryKey: ['recipes'],
-    queryFn: () => base44.entities.Recipe.filter({ is_active: true }),
+    queryFn: () => marginbites.entities.Recipe.filter({ is_active: true }),
   });
 
   const { data: salesItems = [], isLoading: loadingSales } = useQuery({
     queryKey: ['salesItems'],
-    queryFn: () => base44.entities.SalesItem.list(),
+    queryFn: () => marginbites.entities.SalesItem.list(),
   });
 
   const { data: salesDaily = [] } = useQuery({
     queryKey: ['salesDaily', selectedLocationId],
     queryFn: async () => {
       if (!selectedLocationId) return [];
-      return base44.entities.SalesDaily.filter(
+      return marginbites.entities.SalesDaily.filter(
         { location_id: selectedLocationId },
         '-sale_date',
         100
@@ -72,7 +72,7 @@ export default function SalesRecipes({ selectedLocationId }) {
     queryKey: ['theoreticalConsumption', selectedLocationId],
     queryFn: async () => {
       if (!selectedLocationId) return [];
-      return base44.entities.TheoreticalConsumption.filter(
+      return marginbites.entities.TheoreticalConsumption.filter(
         { location_id: selectedLocationId },
         '-consumption_date',
         100
@@ -84,7 +84,7 @@ export default function SalesRecipes({ selectedLocationId }) {
   const mapSalesItemMutation = useMutation({
     mutationFn: async ({ salesItemId, recipeId }) => {
       const recipe = recipes.find(r => r.id === recipeId);
-      await base44.entities.SalesItem.update(salesItemId, {
+      await marginbites.entities.SalesItem.update(salesItemId, {
         recipe_id: recipeId,
         recipe_name: recipe?.recipe_name
       });
@@ -103,8 +103,8 @@ export default function SalesRecipes({ selectedLocationId }) {
     mutationFn: async () => {
       // Obtener ventas recientes sin consumo calculado
       const recentSales = salesDaily.filter(s => s.recipe_id);
-      const recipeLines = await base44.entities.RecipeLine.list();
-      const products = await base44.entities.Product.list();
+      const recipeLines = await marginbites.entities.RecipeLine.list();
+      const products = await marginbites.entities.Product.list();
       const productMap = {};
       products.forEach(p => { productMap[p.id] = p; });
 
@@ -119,7 +119,7 @@ export default function SalesRecipes({ selectedLocationId }) {
           const unitCost = product.avg_price || 0;
 
           // Buscar si ya existe
-          const existing = await base44.entities.TheoreticalConsumption.filter({
+          const existing = await marginbites.entities.TheoreticalConsumption.filter({
             consumption_date: sale.sale_date,
             location_id: selectedLocationId,
             product_id: line.product_id,
@@ -142,9 +142,9 @@ export default function SalesRecipes({ selectedLocationId }) {
           };
 
           if (existing.length > 0) {
-            await base44.entities.TheoreticalConsumption.update(existing[0].id, consumptionData);
+            await marginbites.entities.TheoreticalConsumption.update(existing[0].id, consumptionData);
           } else {
-            await base44.entities.TheoreticalConsumption.create(consumptionData);
+            await marginbites.entities.TheoreticalConsumption.create(consumptionData);
           }
         }
       }

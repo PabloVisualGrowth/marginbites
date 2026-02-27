@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import { marginbites } from '@/api/marginbitesClient';
 import { format, subDays, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import {
@@ -45,7 +45,7 @@ export default function BleedPanel({ selectedLocationId }) {
     queryKey: ['foodCostDaily', selectedLocationId, selectedDate],
     queryFn: async () => {
       if (!selectedLocationId) return null;
-      const data = await base44.entities.FoodCostDaily.filter({
+      const data = await marginbites.entities.FoodCostDaily.filter({
         location_id: selectedLocationId,
         date: selectedDate
       });
@@ -58,7 +58,7 @@ export default function BleedPanel({ selectedLocationId }) {
     queryKey: ['gapAnalysis', selectedLocationId, selectedDate],
     queryFn: async () => {
       if (!selectedLocationId) return null;
-      const data = await base44.entities.GapAnalysis.filter({
+      const data = await marginbites.entities.GapAnalysis.filter({
         location_id: selectedLocationId,
         date: selectedDate
       });
@@ -71,7 +71,7 @@ export default function BleedPanel({ selectedLocationId }) {
     queryKey: ['recommendations', selectedLocationId, selectedDate],
     queryFn: async () => {
       if (!selectedLocationId) return [];
-      return base44.entities.Recommendation.filter({
+      return marginbites.entities.Recommendation.filter({
         location_id: selectedLocationId,
         date: selectedDate
       }, '-estimated_impact_eur');
@@ -84,7 +84,7 @@ export default function BleedPanel({ selectedLocationId }) {
     queryFn: async () => {
       if (!selectedLocationId) return [];
       const startDate = format(subDays(new Date(), parseInt(dateRange)), 'yyyy-MM-dd');
-      const data = await base44.entities.FoodCostDaily.filter({
+      const data = await marginbites.entities.FoodCostDaily.filter({
         location_id: selectedLocationId
       }, 'date', 30);
       return data.filter(d => d.date >= startDate).map(d => ({
@@ -100,23 +100,23 @@ export default function BleedPanel({ selectedLocationId }) {
   const regeneratePanelMutation = useMutation({
     mutationFn: async () => {
       // Simular regeneración del panel
-      const sales = await base44.entities.SalesDaily.filter({
+      const sales = await marginbites.entities.SalesDaily.filter({
         location_id: selectedLocationId,
         sale_date: selectedDate
       });
       const totalSales = sales.reduce((sum, s) => sum + (s.net_sales_amount || 0), 0);
 
-      const consumption = await base44.entities.TheoreticalConsumption.filter({
+      const consumption = await marginbites.entities.TheoreticalConsumption.filter({
         location_id: selectedLocationId,
         consumption_date: selectedDate
       });
       const theoreticalCogs = consumption.reduce((sum, c) => sum + (c.total_cost || 0), 0);
 
       // Calcular COGS real (simplificado)
-      const stockData = await base44.entities.StockOnHand.filter({ location_id: selectedLocationId });
+      const stockData = await marginbites.entities.StockOnHand.filter({ location_id: selectedLocationId });
       const closingStockValue = stockData.reduce((sum, s) => sum + (s.total_value || 0), 0);
       
-      const grns = await base44.entities.GRN.filter({
+      const grns = await marginbites.entities.GRN.filter({
         location_id: selectedLocationId,
         delivery_date: selectedDate,
         status: 'Posted'
@@ -132,7 +132,7 @@ export default function BleedPanel({ selectedLocationId }) {
       const gapEur = actualCogs - theoreticalCogs;
 
       // Crear o actualizar food cost daily
-      const existing = await base44.entities.FoodCostDaily.filter({
+      const existing = await marginbites.entities.FoodCostDaily.filter({
         location_id: selectedLocationId,
         date: selectedDate
       });
@@ -154,19 +154,19 @@ export default function BleedPanel({ selectedLocationId }) {
       };
 
       if (existing.length > 0) {
-        await base44.entities.FoodCostDaily.update(existing[0].id, fcData);
+        await marginbites.entities.FoodCostDaily.update(existing[0].id, fcData);
       } else {
-        await base44.entities.FoodCostDaily.create(fcData);
+        await marginbites.entities.FoodCostDaily.create(fcData);
       }
 
       // Generar análisis de gap si gap > 2%
       if (Math.abs(gapPct) > 0.02) {
-        const incidents = await base44.entities.GRNIncident.filter({
+        const incidents = await marginbites.entities.GRNIncident.filter({
           resolved: false
         });
         const incidentsImpact = incidents.reduce((sum, i) => sum + (i.impact_eur || 0), 0);
 
-        const wasteMovements = await base44.entities.LedgerMovement.filter({
+        const wasteMovements = await marginbites.entities.LedgerMovement.filter({
           location_id: selectedLocationId,
           movement_type: 'WASTE_OUT',
           movement_date: selectedDate
@@ -194,15 +194,15 @@ export default function BleedPanel({ selectedLocationId }) {
           top_dishes: []
         };
 
-        const existingAnalysis = await base44.entities.GapAnalysis.filter({
+        const existingAnalysis = await marginbites.entities.GapAnalysis.filter({
           location_id: selectedLocationId,
           date: selectedDate
         });
 
         if (existingAnalysis.length > 0) {
-          await base44.entities.GapAnalysis.update(existingAnalysis[0].id, analysisData);
+          await marginbites.entities.GapAnalysis.update(existingAnalysis[0].id, analysisData);
         } else {
-          await base44.entities.GapAnalysis.create(analysisData);
+          await marginbites.entities.GapAnalysis.create(analysisData);
         }
 
         // Generar recomendaciones
@@ -222,12 +222,12 @@ export default function BleedPanel({ selectedLocationId }) {
 
   const generateRecommendations = async (analysis, locationId, date) => {
     // Eliminar recomendaciones anteriores del día
-    const oldRecs = await base44.entities.Recommendation.filter({
+    const oldRecs = await marginbites.entities.Recommendation.filter({
       location_id: locationId,
       date: date
     });
     for (const rec of oldRecs) {
-      await base44.entities.Recommendation.delete(rec.id);
+      await marginbites.entities.Recommendation.delete(rec.id);
     }
 
     const recs = [];
@@ -278,7 +278,7 @@ export default function BleedPanel({ selectedLocationId }) {
     }
 
     for (const rec of recs) {
-      await base44.entities.Recommendation.create(rec);
+      await marginbites.entities.Recommendation.create(rec);
     }
   };
 

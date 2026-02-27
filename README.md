@@ -1,39 +1,51 @@
-**Welcome to your Base44 project** 
+# Marginbites
 
-**About**
+Food cost & inventory management app for restaurants and food businesses.
 
-View and Edit  your app on [Base44.com](http://Base44.com) 
+## Features
 
-This project contains everything you need to run your app locally.
+- Dashboard with key metrics and alerts
+- GRN (Goods Received Notes) management
+- Purchase Orders
+- Inventory control
+- Stock on hand tracking
+- Sales & Recipes analysis
+- Bleed panel (food cost gap analysis)
+- Monitoring & audit logs
+- Settings (locations, suppliers, products)
 
-**Edit the code in your local development environment**
+## Getting Started
 
-Any change pushed to the repo will also be reflected in the Base44 Builder.
+### Prerequisites
 
-**Prerequisites:** 
+- Node.js 18+
+- npm or yarn
 
-1. Clone the repository using the project's Git URL 
+### Installation
+
+1. Clone the repository
 2. Navigate to the project directory
-3. Install dependencies: `npm install`
-4. Create an `.env.local` file and set the right environment variables
+3. Install dependencies:
 
-```
-VITE_BASE44_APP_ID=your_app_id
-VITE_BASE44_APP_BASE_URL=your_backend_url
-
-e.g.
-VITE_BASE44_APP_ID=cbef744a8545c389ef439ea6
-VITE_BASE44_APP_BASE_URL=https://my-to-do-list-81bfaad7.base44.app
+```bash
+npm install
 ```
 
-Run the app: `npm run dev`
+4. Create a `.env.local` file with the required environment variables:
 
-**Publish your changes**
+```
+VITE_MARGINBITES_APP_ID=your_app_id
+VITE_MARGINBITES_APP_BASE_URL=your_backend_url
+```
 
-Open [Base44.com](http://Base44.com) and click on Publish.
+### Running locally
 
-**Docs & Support**
+```bash
+npm run dev
+```
 
-Documentation: [https://docs.base44.com/Integrations/Using-GitHub](https://docs.base44.com/Integrations/Using-GitHub)
+### Build for production
 
-Support: [https://app.base44.com/support](https://app.base44.com/support)
+```bash
+npm run build
+```

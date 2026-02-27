@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import { marginbites } from '@/api/marginbitesClient';
 import { format } from 'date-fns';
 import {
   Bell, AlertTriangle, CheckCircle2, XCircle, Info,
@@ -38,20 +38,20 @@ export default function Alerts({ selectedLocationId }) {
       if (selectedLocationId) filters.location_id = selectedLocationId;
       if (activeTab === 'pending') filters.status = 'Pending';
       if (activeTab === 'read') filters.status = 'Read';
-      return base44.entities.Notification.filter(filters, '-created_date', 100);
+      return marginbites.entities.Notification.filter(filters, '-created_date', 100);
     }
   });
 
   const { data: systemErrors = [] } = useQuery({
     queryKey: ['systemErrors', 'open'],
     queryFn: async () => {
-      return base44.entities.SystemError.filter({ status: 'Open' }, '-created_date', 20);
+      return marginbites.entities.SystemError.filter({ status: 'Open' }, '-created_date', 20);
     }
   });
 
   const markAsReadMutation = useMutation({
     mutationFn: async (notificationId) => {
-      await base44.entities.Notification.update(notificationId, {
+      await marginbites.entities.Notification.update(notificationId, {
         status: 'Read',
         read_at: new Date().toISOString()
       });
@@ -66,7 +66,7 @@ export default function Alerts({ selectedLocationId }) {
     mutationFn: async () => {
       const pending = notifications.filter(n => n.status === 'Pending');
       for (const n of pending) {
-        await base44.entities.Notification.update(n.id, {
+        await marginbites.entities.Notification.update(n.id, {
           status: 'Read',
           read_at: new Date().toISOString()
         });

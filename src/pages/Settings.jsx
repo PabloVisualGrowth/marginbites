@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import { marginbites } from '@/api/marginbitesClient';
 import {
   Settings as SettingsIcon, Building2, Users, Package, ChefHat,
   Truck, Save, Loader2, Plus, Pencil, Trash2
@@ -47,7 +47,7 @@ export default function Settings({ selectedLocationId, user }) {
     queryKey: ['location', selectedLocationId],
     queryFn: async () => {
       if (!selectedLocationId) return null;
-      const locations = await base44.entities.Location.filter({ id: selectedLocationId });
+      const locations = await marginbites.entities.Location.filter({ id: selectedLocationId });
       return locations[0];
     },
     enabled: !!selectedLocationId
@@ -55,12 +55,12 @@ export default function Settings({ selectedLocationId, user }) {
 
   const { data: suppliers = [] } = useQuery({
     queryKey: ['suppliers'],
-    queryFn: () => base44.entities.Supplier.list(),
+    queryFn: () => marginbites.entities.Supplier.list(),
   });
 
   const { data: products = [] } = useQuery({
     queryKey: ['products'],
-    queryFn: () => base44.entities.Product.list('-created_date', 100),
+    queryFn: () => marginbites.entities.Product.list('-created_date', 100),
   });
 
   const [localSettings, setLocalSettings] = useState({
@@ -81,7 +81,7 @@ export default function Settings({ selectedLocationId, user }) {
 
   const saveSettingsMutation = useMutation({
     mutationFn: async () => {
-      await base44.entities.Location.update(selectedLocationId, {
+      await marginbites.entities.Location.update(selectedLocationId, {
         settings: localSettings
       });
     },
@@ -106,9 +106,9 @@ export default function Settings({ selectedLocationId, user }) {
   const saveSupplierMutation = useMutation({
     mutationFn: async (data) => {
       if (editingSupplier) {
-        await base44.entities.Supplier.update(editingSupplier.id, data);
+        await marginbites.entities.Supplier.update(editingSupplier.id, data);
       } else {
-        await base44.entities.Supplier.create(data);
+        await marginbites.entities.Supplier.create(data);
       }
     },
     onSuccess: () => {

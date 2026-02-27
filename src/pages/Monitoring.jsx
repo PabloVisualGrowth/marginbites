@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import { marginbites } from '@/api/marginbitesClient';
 import { format } from 'date-fns';
 import {
   Activity, AlertTriangle, CheckCircle2, Clock, Database,
@@ -21,30 +21,30 @@ import {
 export default function Monitoring({ user }) {
   const { data: systemErrors = [], isLoading: loadingErrors } = useQuery({
     queryKey: ['systemErrors'],
-    queryFn: () => base44.entities.SystemError.list('-created_date', 20),
+    queryFn: () => marginbites.entities.SystemError.list('-created_date', 20),
   });
 
   const { data: auditLogs = [], isLoading: loadingAudit } = useQuery({
     queryKey: ['auditLogs'],
-    queryFn: () => base44.entities.AuditLog.list('-created_date', 50),
+    queryFn: () => marginbites.entities.AuditLog.list('-created_date', 50),
   });
 
   const { data: syncStates = [] } = useQuery({
     queryKey: ['syncStates'],
-    queryFn: () => base44.entities.IntegrationSyncState.list('-updated_at', 20),
+    queryFn: () => marginbites.entities.IntegrationSyncState.list('-updated_at', 20),
   });
 
   const { data: grns = [] } = useQuery({
     queryKey: ['grnsToday'],
     queryFn: async () => {
       const today = format(new Date(), 'yyyy-MM-dd');
-      return base44.entities.GRN.filter({ delivery_date: today });
+      return marginbites.entities.GRN.filter({ delivery_date: today });
     },
   });
 
   const { data: inventories = [] } = useQuery({
     queryKey: ['inventoriesThisWeek'],
-    queryFn: () => base44.entities.Inventory.list('-started_at', 10),
+    queryFn: () => marginbites.entities.Inventory.list('-started_at', 10),
   });
 
   if (user?.role !== 'admin') {

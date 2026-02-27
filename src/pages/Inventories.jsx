@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import { marginbites } from '@/api/marginbitesClient';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { format } from 'date-fns';
@@ -73,7 +73,7 @@ export default function Inventories({ selectedLocationId, user }) {
       if (!selectedLocationId) return [];
       const filters = { location_id: selectedLocationId };
       if (statusFilter !== 'all') filters.status = statusFilter;
-      return base44.entities.Inventory.filter(filters, '-started_at', 50);
+      return marginbites.entities.Inventory.filter(filters, '-started_at', 50);
     },
     enabled: !!selectedLocationId
   });
@@ -82,7 +82,7 @@ export default function Inventories({ selectedLocationId, user }) {
     queryKey: ['stockAnomalies', selectedLocationId],
     queryFn: async () => {
       if (!selectedLocationId) return [];
-      const stock = await base44.entities.StockOnHand.filter({ location_id: selectedLocationId });
+      const stock = await marginbites.entities.StockOnHand.filter({ location_id: selectedLocationId });
       return stock.filter(s => s.is_negative || s.quantity_base < 0);
     },
     enabled: !!selectedLocationId
@@ -90,10 +90,10 @@ export default function Inventories({ selectedLocationId, user }) {
 
   const createInventoryMutation = useMutation({
     mutationFn: async (data) => {
-      const invCount = await base44.entities.Inventory.list('-created_date', 1);
+      const invCount = await marginbites.entities.Inventory.list('-created_date', 1);
       const invNum = invCount.length > 0 ? parseInt(invCount[0].inventory_number?.split('-')[2] || '0') + 1 : 1;
 
-      const inventory = await base44.entities.Inventory.create({
+      const inventory = await marginbites.entities.Inventory.create({
         inventory_number: `INV-${new Date().getFullYear()}-${String(invNum).padStart(4, '0')}`,
         location_id: selectedLocationId,
         inventory_type: data.inventory_type,
@@ -109,18 +109,18 @@ export default function Inventories({ selectedLocationId, user }) {
       // Crear líneas de inventario
       let products = [];
       if (data.count_scope === 'all_products') {
-        products = await base44.entities.Product.filter({ is_active: true });
+        products = await marginbites.entities.Product.filter({ is_active: true });
       } else if (data.count_scope === 'key_products') {
-        products = await base44.entities.Product.filter({ is_active: true, is_key_product: true });
+        products = await marginbites.entities.Product.filter({ is_active: true, is_key_product: true });
       }
 
-      const stock = await base44.entities.StockOnHand.filter({ location_id: selectedLocationId });
+      const stock = await marginbites.entities.StockOnHand.filter({ location_id: selectedLocationId });
       const stockMap = {};
       stock.forEach(s => { stockMap[s.product_id] = s; });
 
       for (const product of products) {
         const stockItem = stockMap[product.id];
-        await base44.entities.InventoryLine.create({
+        await marginbites.entities.InventoryLine.create({
           inventory_id: inventory.id,
           inventory_number: inventory.inventory_number,
           product_id: product.id,
@@ -134,7 +134,7 @@ export default function Inventories({ selectedLocationId, user }) {
         });
       }
 
-      await base44.entities.Inventory.update(inventory.id, {
+      await marginbites.entities.Inventory.update(inventory.id, {
         lines_count: products.length
       });
 
@@ -152,10 +152,10 @@ export default function Inventories({ selectedLocationId, user }) {
 
   const createExpressFromAnomaliesMutation = useMutation({
     mutationFn: async () => {
-      const invCount = await base44.entities.Inventory.list('-created_date', 1);
+      const invCount = await marginbites.entities.Inventory.list('-created_date', 1);
       const invNum = invCount.length > 0 ? parseInt(invCount[0].inventory_number?.split('-')[2] || '0') + 1 : 1;
 
-      const inventory = await base44.entities.Inventory.create({
+      const inventory = await marginbites.entities.Inventory.create({
         inventory_number: `INV-${new Date().getFullYear()}-${String(invNum).padStart(4, '0')}`,
         location_id: selectedLocationId,
         inventory_type: 'anomaly_triggered',
@@ -170,7 +170,7 @@ export default function Inventories({ selectedLocationId, user }) {
       });
 
       for (const item of anomalies) {
-        await base44.entities.InventoryLine.create({
+        await marginbites.entities.InventoryLine.create({
           inventory_id: inventory.id,
           inventory_number: inventory.inventory_number,
           product_id: item.product_id,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import { marginbites } from '@/api/marginbitesClient';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { format, subDays } from 'date-fns';
@@ -25,7 +25,7 @@ export default function Dashboard({ selectedLocationId }) {
     queryKey: ['foodCostDaily', selectedLocationId, yesterday],
     queryFn: async () => {
       if (!selectedLocationId) return null;
-      const data = await base44.entities.FoodCostDaily.filter({
+      const data = await marginbites.entities.FoodCostDaily.filter({
         location_id: selectedLocationId,
         date: yesterday
       });
@@ -39,7 +39,7 @@ export default function Dashboard({ selectedLocationId }) {
     queryKey: ['stockOnHand', selectedLocationId],
     queryFn: async () => {
       if (!selectedLocationId) return [];
-      return base44.entities.StockOnHand.filter({ location_id: selectedLocationId });
+      return marginbites.entities.StockOnHand.filter({ location_id: selectedLocationId });
     },
     enabled: !!selectedLocationId
   });
@@ -49,7 +49,7 @@ export default function Dashboard({ selectedLocationId }) {
     queryKey: ['pendingGRNs', selectedLocationId],
     queryFn: async () => {
       if (!selectedLocationId) return [];
-      return base44.entities.GRN.filter({
+      return marginbites.entities.GRN.filter({
         location_id: selectedLocationId,
         status: 'Pending_Validation'
       });
@@ -62,7 +62,7 @@ export default function Dashboard({ selectedLocationId }) {
     queryKey: ['openInventories', selectedLocationId],
     queryFn: async () => {
       if (!selectedLocationId) return [];
-      return base44.entities.Inventory.filter({
+      return marginbites.entities.Inventory.filter({
         location_id: selectedLocationId,
         status: 'In_Progress'
       });
@@ -75,7 +75,7 @@ export default function Dashboard({ selectedLocationId }) {
     queryKey: ['openRecommendations', selectedLocationId],
     queryFn: async () => {
       if (!selectedLocationId) return [];
-      return base44.entities.Recommendation.filter({
+      return marginbites.entities.Recommendation.filter({
         location_id: selectedLocationId,
         status: 'Open'
       }, '-estimated_impact_eur', 5);

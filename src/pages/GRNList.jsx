@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import { marginbites } from '@/api/marginbitesClient';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { format } from 'date-fns';
@@ -62,7 +62,7 @@ export default function GRNList({ selectedLocationId }) {
       if (!selectedLocationId) return [];
       const filters = { location_id: selectedLocationId };
       if (statusFilter !== 'all') filters.status = statusFilter;
-      return base44.entities.GRN.filter(filters, '-delivery_date', 50);
+      return marginbites.entities.GRN.filter(filters, '-delivery_date', 50);
     },
     enabled: !!selectedLocationId
   });
@@ -76,14 +76,14 @@ export default function GRNList({ selectedLocationId }) {
 
     try {
       // Subir archivo
-      const { file_url } = await base44.integrations.Core.UploadFile({ file });
+      const { file_url } = await marginbites.integrations.Core.UploadFile({ file });
       setUploadProgress(50);
 
       // Crear GRN
-      const grnCount = await base44.entities.GRN.list('-created_date', 1);
+      const grnCount = await marginbites.entities.GRN.list('-created_date', 1);
       const grnNum = grnCount.length > 0 ? parseInt(grnCount[0].grn_number?.split('-')[2] || '0') + 1 : 1;
 
-      const grn = await base44.entities.GRN.create({
+      const grn = await marginbites.entities.GRN.create({
         grn_number: `GRN-${new Date().getFullYear()}-${String(grnNum).padStart(4, '0')}`,
         location_id: selectedLocationId,
         delivery_date: format(new Date(), 'yyyy-MM-dd'),
@@ -112,8 +112,8 @@ export default function GRNList({ selectedLocationId }) {
 
   const processOCRStub = async (grnId, fileUrl) => {
     // Stub de OCR - simula extracción de datos
-    const suppliers = await base44.entities.Supplier.filter({ is_active: true });
-    const products = await base44.entities.Product.filter({ is_active: true });
+    const suppliers = await marginbites.entities.Supplier.filter({ is_active: true });
+    const products = await marginbites.entities.Product.filter({ is_active: true });
     
     const randomSupplier = suppliers[Math.floor(Math.random() * suppliers.length)];
     const randomProducts = products.slice(0, Math.min(3, products.length));
@@ -139,7 +139,7 @@ export default function GRNList({ selectedLocationId }) {
     ocrResult.total_amount = ocrResult.line_items.reduce((sum, i) => sum + i.total, 0);
 
     // Actualizar GRN con datos OCR
-    await base44.entities.GRN.update(grnId, {
+    await marginbites.entities.GRN.update(grnId, {
       supplier_id: randomSupplier?.id,
       supplier_name: ocrResult.supplier_name,
       albaran_number: ocrResult.albaran_number,
@@ -155,7 +155,7 @@ export default function GRNList({ selectedLocationId }) {
     // Crear líneas de GRN
     for (const item of ocrResult.line_items) {
       const product = products.find(p => p.id === item.product_id);
-      await base44.entities.GRNLine.create({
+      await marginbites.entities.GRNLine.create({
         grn_id: grnId,
         product_id: item.product_id,
         product_name: item.description,

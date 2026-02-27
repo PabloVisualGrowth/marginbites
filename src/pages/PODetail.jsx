@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import { marginbites } from '@/api/marginbitesClient';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { format } from 'date-fns';
@@ -36,7 +36,7 @@ export default function PODetail() {
   const { data: po, isLoading } = useQuery({
     queryKey: ['purchaseOrder', poId],
     queryFn: async () => {
-      const data = await base44.entities.PurchaseOrder.filter({ id: poId });
+      const data = await marginbites.entities.PurchaseOrder.filter({ id: poId });
       return data[0];
     },
     enabled: !!poId
@@ -44,7 +44,7 @@ export default function PODetail() {
 
   const { data: lines = [] } = useQuery({
     queryKey: ['poLines', poId],
-    queryFn: () => base44.entities.POLine.filter({ purchase_order_id: poId }),
+    queryFn: () => marginbites.entities.POLine.filter({ purchase_order_id: poId }),
     enabled: !!poId
   });
 
