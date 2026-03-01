@@ -3,10 +3,11 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { marginbites } from '@/api/marginbitesClient';
 import { format, subDays, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { generateAIRecommendations } from '@/api/openaiClient';
 import {
   TrendingDown, TrendingUp, RefreshCw, Calendar, AlertTriangle,
   CheckCircle2, Target, ShoppingCart, Package, Trash2, ChefHat,
-  Loader2, ArrowRight, Lightbulb, BarChart3
+  Loader2, ArrowRight, Lightbulb, BarChart3, Sparkles
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -205,8 +206,29 @@ export default function BleedPanel({ selectedLocationId }) {
           await marginbites.entities.GapAnalysis.create(analysisData);
         }
 
-        // Generar recomendaciones
-        await generateRecommendations(analysisData, selectedLocationId, selectedDate);
+        // Generar recomendaciones con IA
+        await generateAIRecommendationsAndSave({
+          analysisData,
+          locationId: selectedLocationId,
+          date: selectedDate,
+          salesEur: totalSales,
+          theoreticalFcPct,
+          theoreticalCogsEur: theoreticalCogs,
+          actualFcPct,
+          actualCogsEur: actualCogs,
+          gapPct,
+          gapEur,
+          driver1Pct: driver1 / totalGapEur * 100,
+          driver1Eur: driver1,
+          driver2Pct: driver2 / totalGapEur * 100,
+          driver2Eur: driver2,
+          driver3Pct: driver3 / totalGapEur * 100,
+          driver3Eur: driver3,
+          driver4Pct: driver4 / totalGapEur * 100,
+          driver4Eur: driver4,
+          incidents,
+          wasteMovements,
+        });
       }
     },
     onSuccess: () => {
@@ -220,65 +242,71 @@ export default function BleedPanel({ selectedLocationId }) {
     }
   });
 
-  const generateRecommendations = async (analysis, locationId, date) => {
-    // Eliminar recomendaciones anteriores del día
+  const generateAIRecommendationsAndSave = async ({
+    locationId, date,
+    salesEur, theoreticalFcPct, theoreticalCogsEur,
+    actualFcPct, actualCogsEur, gapPct, gapEur,
+    driver1Pct, driver1Eur, driver2Pct, driver2Eur,
+    driver3Pct, driver3Eur, driver4Pct, driver4Eur,
+    incidents, wasteMovements,
+  }) => {
+    // Delete old recommendations for this day
     const oldRecs = await marginbites.entities.Recommendation.filter({
       location_id: locationId,
-      date: date
+      date,
     });
     for (const rec of oldRecs) {
       await marginbites.entities.Recommendation.delete(rec.id);
     }
 
-    const recs = [];
+    // Build waste context: group by product
+    const wasteByProduct = {};
+    wasteMovements.forEach(m => {
+      const key = m.product_name || m.product_id;
+      if (!wasteByProduct[key]) wasteByProduct[key] = { product_name: key, wasteValue: 0 };
+      wasteByProduct[key].wasteValue += (m.total_cost || 0);
+    });
+    const topWasteProducts = Object.values(wasteByProduct).sort((a, b) => b.wasteValue - a.wasteValue);
 
-    if (analysis.driver_1_pct > 40) {
-      recs.push({
+    let aiRecs = [];
+    try {
+      aiRecs = await generateAIRecommendations({
         date,
-        location_id: locationId,
-        priority: 'High',
-        title: 'Revisar precios de compra',
-        text: `Los precios de compra están impactando un ${analysis.driver_1_pct.toFixed(0)}% del gap. Revisa los últimos albaranes y negocia con proveedores.`,
-        estimated_impact_eur: analysis.driver_1_purchases_price_eur,
-        related_driver: 'driver_1',
-        source: 'rules',
-        action_type: 'review_prices',
-        status: 'Open'
+        salesEur,
+        theoreticalFcPct,
+        theoreticalCogsEur,
+        actualFcPct,
+        actualCogsEur,
+        gapPct,
+        gapEur,
+        driver1Pct,
+        driver1Eur,
+        driver2Pct,
+        driver2Eur,
+        driver3Pct,
+        driver3Eur,
+        driver4Pct,
+        driver4Eur,
+        incidents: incidents.slice(0, 5),
+        topWasteProducts,
       });
+    } catch (err) {
+      console.error('AI recommendations failed, skipping:', err);
     }
 
-    if (analysis.driver_2_pct > 30) {
-      recs.push({
+    for (const rec of aiRecs) {
+      await marginbites.entities.Recommendation.create({
         date,
         location_id: locationId,
-        priority: 'High',
-        title: 'Reforzar control de recepciones',
-        text: `Las incidencias de recepción representan un ${analysis.driver_2_pct.toFixed(0)}% del gap. Verifica los albaranes con más atención.`,
-        estimated_impact_eur: analysis.driver_2_reception_incidents_eur,
-        related_driver: 'driver_2',
-        source: 'rules',
-        action_type: 'check_reception',
-        status: 'Open'
+        priority: rec.priority || 'Medium',
+        title: rec.title,
+        text: rec.text,
+        estimated_impact_eur: rec.estimated_impact_eur || 0,
+        related_driver: rec.related_driver || 'driver_1',
+        action_type: rec.action_type || 'other',
+        source: 'llm',
+        status: 'Open',
       });
-    }
-
-    if (analysis.driver_4_pct > 20) {
-      recs.push({
-        date,
-        location_id: locationId,
-        priority: 'Medium',
-        title: 'Revisar mermas de servicio',
-        text: `El waste de servicio representa un ${analysis.driver_4_pct.toFixed(0)}% del gap. Revisa las cantidades de platos devueltos o desechados.`,
-        estimated_impact_eur: analysis.driver_4_service_waste_eur,
-        related_driver: 'driver_4',
-        source: 'rules',
-        action_type: 'review_waste',
-        status: 'Open'
-      });
-    }
-
-    for (const rec of recs) {
-      await marginbites.entities.Recommendation.create(rec);
     }
   };
 
@@ -490,7 +518,10 @@ export default function BleedPanel({ selectedLocationId }) {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Lightbulb className="w-5 h-5 text-amber-500" />
-                  Recomendaciones
+                  Recomendaciones IA
+                  <Badge className="bg-purple-100 text-purple-700 gap-1 text-xs">
+                    <Sparkles className="w-3 h-3" /> GPT-4o-mini
+                  </Badge>
                 </CardTitle>
               </CardHeader>
               <CardContent>
