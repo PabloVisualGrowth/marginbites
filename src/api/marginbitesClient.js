@@ -20,6 +20,15 @@ const toFilter = (filters = {}) =>
     .join(' && ');
 
 const entityApi = (collectionName) => ({
+  // list(sort?, limit?) — compatible with legacy Base44 API
+  list: (sort, limit) => {
+    if (limit) {
+      return pb.collection(collectionName)
+        .getList(1, limit, { sort: sort || '-created' })
+        .then(r => r.items);
+    }
+    return pb.collection(collectionName).getFullList({ sort: sort || '-created' });
+  },
   filter: (filters = {}, opts = {}) => {
     const f = toFilter(filters);
     return pb.collection(collectionName).getFullList({
