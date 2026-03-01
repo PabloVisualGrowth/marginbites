@@ -63,7 +63,7 @@ export default function Layout({ children, currentPageName }) {
     marginbites.auth.logout();
   };
 
-  const userRole = user?.role || 'chef';
+  const userRole = user?.role || 'admin';
   const canAccessConfig = ['admin', 'manager'].includes(userRole);
   const canAccessMonitor = userRole === 'admin';
 
