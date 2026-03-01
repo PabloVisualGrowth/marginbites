@@ -1,4 +1,5 @@
-const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
+const getEnv = (key) => (typeof window !== 'undefined' && window.__ENV__?.[key]) || import.meta.env[key] || '';
+const OPENAI_API_KEY = getEnv('VITE_OPENAI_API_KEY');
 const OPENAI_BASE = 'https://api.openai.com/v1';
 
 // ─── WHISPER: Audio → Transcription ─────────────────────────────────────────

@@ -1,4 +1,5 @@
 const isNode = typeof window === 'undefined';
+const getEnv = (key) => (!isNode && window.__ENV__?.[key]) || import.meta.env[key] || '';
 const windowObj = isNode ? { localStorage: new Map() } : window;
 const storage = windowObj.localStorage;
 
@@ -40,11 +41,11 @@ const getAppParams = () => {
 		storage.removeItem('token');
 	}
 	return {
-		appId: getAppParamValue("app_id", { defaultValue: import.meta.env.VITE_MARGINBITES_APP_ID }),
+		appId: getAppParamValue("app_id", { defaultValue: getEnv('VITE_MARGINBITES_APP_ID') }),
 		token: getAppParamValue("access_token", { removeFromUrl: true }),
 		fromUrl: getAppParamValue("from_url", { defaultValue: window.location.href }),
-		functionsVersion: getAppParamValue("functions_version", { defaultValue: import.meta.env.VITE_MARGINBITES_FUNCTIONS_VERSION }),
-		appBaseUrl: getAppParamValue("app_base_url", { defaultValue: import.meta.env.VITE_MARGINBITES_APP_BASE_URL }),
+		functionsVersion: getAppParamValue("functions_version", { defaultValue: getEnv('VITE_MARGINBITES_FUNCTIONS_VERSION') }),
+		appBaseUrl: getAppParamValue("app_base_url", { defaultValue: getEnv('VITE_MARGINBITES_APP_BASE_URL') }),
 	}
 }
 
