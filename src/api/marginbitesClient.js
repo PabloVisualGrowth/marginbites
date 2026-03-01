@@ -32,6 +32,12 @@ const entityApi = (collectionName) => ({
 });
 
 export const marginbites = {
+  // Auth stub — PocketBase rules are null (open). Wire real PB auth here if needed.
+  auth: {
+    me: () => Promise.resolve({ full_name: 'Admin', email: 'admin@marginbites.com', role: 'admin' }),
+    logout: () => {},
+    redirectToLogin: () => {},
+  },
   entities: {
     AppSetting:             entityApi('app_settings'),
     AuditLog:               entityApi('audit_logs'),

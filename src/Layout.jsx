@@ -40,12 +40,12 @@ export default function Layout({ children, currentPageName }) {
 
   const { data: locations = [] } = useQuery({
     queryKey: ['locations'],
-    queryFn: () => marginbites.entities.Location.list(),
+    queryFn: () => marginbites.entities.Location.filter(),
   });
 
   const { data: notifications = [] } = useQuery({
     queryKey: ['notifications', 'unread'],
-    queryFn: () => marginbites.entities.Notification.filter({ status: 'Pending' }, '-created_date', 10),
+    queryFn: () => marginbites.entities.Notification.filter({ status: 'Pending' }, { sort: '-created' }),
   });
 
   const unreadCount = notifications.length;
