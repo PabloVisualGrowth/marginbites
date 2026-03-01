@@ -38,6 +38,10 @@ export const marginbites = {
     logout: () => {},
     redirectToLogin: () => {},
   },
+  // Logging stub — was a Base44 feature, no-op here.
+  appLogs: {
+    logUserInApp: () => Promise.resolve(),
+  },
   entities: {
     AppSetting:             entityApi('app_settings'),
     AuditLog:               entityApi('audit_logs'),
