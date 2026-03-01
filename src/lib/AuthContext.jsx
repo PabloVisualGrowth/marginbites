@@ -1,30 +1,42 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { pb } from '@/api/marginbitesClient';
 
 const AuthContext = createContext();
 
-// Auth is stubbed — PocketBase collections use null rules (fully open).
-// A real login system can be wired here later.
-const STUB_USER = {
-  full_name: 'Admin',
-  email: 'admin@marginbites.com',
-  role: 'admin',
-};
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(pb.authStore.model);
+  const [isAuthenticated, setIsAuthenticated] = useState(pb.authStore.isValid);
 
-export const AuthProvider = ({ children }) => (
-  <AuthContext.Provider value={{
-    user: STUB_USER,
-    isAuthenticated: true,
-    isLoadingAuth: false,
-    isLoadingPublicSettings: false,
-    authError: null,
-    appPublicSettings: null,
-    logout: () => {},
-    navigateToLogin: () => {},
-    checkAppState: () => {},
-  }}>
-    {children}
-  </AuthContext.Provider>
-);
+  useEffect(() => {
+    // PocketBase fires onChange whenever the auth store changes (login/logout/token refresh)
+    const unsubscribe = pb.authStore.onChange((token, model) => {
+      setUser(model);
+      setIsAuthenticated(pb.authStore.isValid);
+    });
+    return unsubscribe;
+  }, []);
+
+  const logout = () => {
+    pb.authStore.clear();
+    window.location.href = '/login';
+  };
+
+  return (
+    <AuthContext.Provider value={{
+      user,
+      isAuthenticated,
+      isLoadingAuth: false,
+      isLoadingPublicSettings: false,
+      authError: null,
+      appPublicSettings: null,
+      logout,
+      navigateToLogin: () => { window.location.href = '/login'; },
+      checkAppState: () => {},
+    }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
 
 export const useAuth = () => {
   const context = useContext(AuthContext);

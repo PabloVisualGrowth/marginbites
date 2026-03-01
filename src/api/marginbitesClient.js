@@ -32,11 +32,12 @@ const entityApi = (collectionName) => ({
 });
 
 export const marginbites = {
-  // Auth stub — PocketBase rules are null (open). Wire real PB auth here if needed.
   auth: {
-    me: () => Promise.resolve({ full_name: 'Admin', email: 'admin@marginbites.com', role: 'admin' }),
-    logout: () => {},
-    redirectToLogin: () => {},
+    me: () => pb.authStore.isValid
+      ? Promise.resolve(pb.authStore.model)
+      : Promise.reject(new Error('Not authenticated')),
+    logout: () => { pb.authStore.clear(); window.location.href = '/login'; },
+    redirectToLogin: () => { window.location.href = '/login'; },
   },
   // Logging stub — was a Base44 feature, no-op here.
   appLogs: {
