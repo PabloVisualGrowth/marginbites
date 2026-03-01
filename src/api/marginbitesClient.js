@@ -20,15 +20,26 @@ const toFilter = (filters = {}) =>
     .join(' && ');
 
 const entityApi = (collectionName) => ({
-  filter: (filters = {}, opts = {}) =>
-    pb.collection(collectionName).getFullList({
-      filter: toFilter(filters) || undefined,
+  filter: (filters = {}, opts = {}) => {
+    const f = toFilter(filters);
+    return pb.collection(collectionName).getFullList({
+      ...(f ? { filter: f } : {}),
       sort: opts.sort ?? '-created',
-    }),
-  get: (id) => pb.collection(collectionName).getOne(id),
+    });
+  },
+  get: (id) => {
+    if (!id) return Promise.resolve(null);
+    return pb.collection(collectionName).getOne(id);
+  },
   create: (data) => pb.collection(collectionName).create(data),
-  update: (id, data) => pb.collection(collectionName).update(id, data),
-  delete: (id) => pb.collection(collectionName).delete(id),
+  update: (id, data) => {
+    if (!id) return Promise.reject(new Error(`update sin id en ${collectionName}`));
+    return pb.collection(collectionName).update(id, data);
+  },
+  delete: (id) => {
+    if (!id) return Promise.reject(new Error(`delete sin id en ${collectionName}`));
+    return pb.collection(collectionName).delete(id);
+  },
 });
 
 export const marginbites = {
