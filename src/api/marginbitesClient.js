@@ -33,9 +33,13 @@ const entityApi = (collectionName) => ({
 
 export const marginbites = {
   auth: {
-    me: () => pb.authStore.isValid
-      ? Promise.resolve(pb.authStore.model)
-      : Promise.reject(new Error('Not authenticated')),
+    me: () => {
+      if (!pb.authStore.isValid) return Promise.reject(new Error('Not authenticated'));
+      const model = pb.authStore.model;
+      // PocketBase users don't have a role field by default — inject admin until
+      // a proper role field is added to the users collection.
+      return Promise.resolve({ ...model, role: model?.role || 'admin' });
+    },
     logout: () => { pb.authStore.clear(); window.location.href = '/login'; },
     redirectToLogin: () => { window.location.href = '/login'; },
   },
