@@ -22,22 +22,26 @@ const toFilter = (filters = {}) =>
     })
     .join(' && ');
 
+// Build a URL-safe query object — never include filter unless it's a non-empty string
+const buildQuery = (base, filterStr) => {
+  const q = { ...base };
+  if (filterStr && filterStr.trim()) q.filter = filterStr.trim();
+  return q;
+};
+
 const entityApi = (collectionName) => ({
-  // list(sort?, limit?) — uses getList directly to avoid SDK serialising empty filter params
+  // list(sort?, limit?) — uses pb.send for full control over query params
   list: (sort, limit) => {
-    const opts = { sort: sort || '-created' };
-    return pb.collection(collectionName)
-      .getList(1, limit || 500, opts)
-      .then(r => { console.log(`[PB] list(${collectionName}) → ${r.items.length} items`); return r.items; })
+    const query = buildQuery({ page: 1, perPage: limit || 100, sort: sort || '-created' });
+    return pb.send(`/api/collections/${collectionName}/records`, { method: 'GET', query })
+      .then(r => { const items = r.items || []; console.log(`[PB] list(${collectionName}) → ${items.length} items`); return items; })
       .catch(err => { console.error(`[PB] list(${collectionName}) ERROR:`, err?.status, err?.message); throw err; });
   },
   filter: (filters = {}, opts = {}) => {
     const f = toFilter(filters);
-    const reqOpts = { sort: opts.sort ?? '-created' };
-    if (f) reqOpts.filter = f;
-    return pb.collection(collectionName)
-      .getList(1, 500, reqOpts)
-      .then(r => { console.log(`[PB] filter(${collectionName}, "${f || ''}") → ${r.items.length} items`); return r.items; })
+    const query = buildQuery({ page: 1, perPage: 500, sort: opts.sort ?? '-created' }, f);
+    return pb.send(`/api/collections/${collectionName}/records`, { method: 'GET', query })
+      .then(r => { const items = r.items || []; console.log(`[PB] filter(${collectionName}, "${f || ''}") → ${items.length} items`); return items; })
       .catch(err => { console.error(`[PB] filter(${collectionName}) ERROR:`, err?.status, err?.message); throw err; });
   },
   get: (id) => {

@@ -45,7 +45,7 @@ export default function Layout({ children, currentPageName }) {
 
   const { data: notifications = [] } = useQuery({
     queryKey: ['notifications', 'unread'],
-    queryFn: () => marginbites.entities.Notification.filter({ status: 'Pending' }, { sort: '-created' }),
+    queryFn: () => marginbites.entities.Notification.list(),
   });
 
   const unreadCount = notifications.length;
