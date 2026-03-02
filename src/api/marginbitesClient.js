@@ -2,7 +2,10 @@ import PocketBase from 'pocketbase';
 
 const getEnv = (key) => (typeof window !== 'undefined' && window.__ENV__?.[key]) || import.meta.env[key] || '';
 
-export const pb = new PocketBase(getEnv('VITE_POCKETBASE_URL') || 'http://localhost:8090');
+const resolvedUrl = getEnv('VITE_POCKETBASE_URL') || 'http://localhost:8090';
+console.log('[PB] baseURL =', resolvedUrl, '| window.__ENV__ =', typeof window !== 'undefined' ? window.__ENV__ : 'N/A');
+
+export const pb = new PocketBase(resolvedUrl);
 
 // Disable auto-cancellation so React Query doesn't conflict
 pb.autoCancellation(false);
@@ -20,21 +23,22 @@ const toFilter = (filters = {}) =>
     .join(' && ');
 
 const entityApi = (collectionName) => ({
-  // list(sort?, limit?) — compatible with legacy Base44 API
+  // list(sort?, limit?) — uses getList directly to avoid SDK serialising empty filter params
   list: (sort, limit) => {
-    if (limit) {
-      return pb.collection(collectionName)
-        .getList(1, limit, { sort: sort || '-created' })
-        .then(r => r.items);
-    }
-    return pb.collection(collectionName).getFullList({ sort: sort || '-created' });
+    const opts = { sort: sort || '-created' };
+    return pb.collection(collectionName)
+      .getList(1, limit || 500, opts)
+      .then(r => { console.log(`[PB] list(${collectionName}) → ${r.items.length} items`); return r.items; })
+      .catch(err => { console.error(`[PB] list(${collectionName}) ERROR:`, err?.status, err?.message); throw err; });
   },
   filter: (filters = {}, opts = {}) => {
     const f = toFilter(filters);
-    return pb.collection(collectionName).getFullList({
-      ...(f ? { filter: f } : {}),
-      sort: opts.sort ?? '-created',
-    });
+    const reqOpts = { sort: opts.sort ?? '-created' };
+    if (f) reqOpts.filter = f;
+    return pb.collection(collectionName)
+      .getList(1, 500, reqOpts)
+      .then(r => { console.log(`[PB] filter(${collectionName}, "${f || ''}") → ${r.items.length} items`); return r.items; })
+      .catch(err => { console.error(`[PB] filter(${collectionName}) ERROR:`, err?.status, err?.message); throw err; });
   },
   get: (id) => {
     if (!id) return Promise.resolve(null);
