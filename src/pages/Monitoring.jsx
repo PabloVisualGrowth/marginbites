@@ -21,17 +21,17 @@ import {
 export default function Monitoring({ user }) {
   const { data: systemErrors = [], isLoading: loadingErrors } = useQuery({
     queryKey: ['systemErrors'],
-    queryFn: () => marginbites.entities.SystemError.list('-created_date', 20),
+    queryFn: () => marginbites.entities.SystemError.list('-created', 20),
   });
 
   const { data: auditLogs = [], isLoading: loadingAudit } = useQuery({
     queryKey: ['auditLogs'],
-    queryFn: () => marginbites.entities.AuditLog.list('-created_date', 50),
+    queryFn: () => marginbites.entities.AuditLog.list('-created', 50),
   });
 
   const { data: syncStates = [] } = useQuery({
     queryKey: ['syncStates'],
-    queryFn: () => marginbites.entities.IntegrationSyncState.list('-updated_at', 20),
+    queryFn: () => marginbites.entities.IntegrationSyncState.list('-updated', 20),
   });
 
   const { data: grns = [] } = useQuery({

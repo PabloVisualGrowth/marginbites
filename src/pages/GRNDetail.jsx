@@ -119,7 +119,7 @@ export default function GRNDetail({ user }) {
   const postMutation = useMutation({
     mutationFn: async () => {
       // Crear movimientos de ledger
-      const movCount = await marginbites.entities.LedgerMovement.list('-created_date', 1);
+      const movCount = await marginbites.entities.LedgerMovement.list('-created', 1);
       let movNum = movCount.length > 0 ? parseInt(movCount[0].movement_number?.split('-')[2] || '0') + 1 : 1;
 
       for (const line of lines) {

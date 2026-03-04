@@ -38,14 +38,14 @@ export default function Alerts({ selectedLocationId }) {
       if (selectedLocationId) filters.location_id = selectedLocationId;
       if (activeTab === 'pending') filters.status = 'Pending';
       if (activeTab === 'read') filters.status = 'Read';
-      return marginbites.entities.Notification.filter(filters, '-created_date', 100);
+      return marginbites.entities.Notification.filter(filters, { sort: '-created', perPage: 100 });
     }
   });
 
   const { data: systemErrors = [] } = useQuery({
     queryKey: ['systemErrors', 'open'],
     queryFn: async () => {
-      return marginbites.entities.SystemError.filter({ status: 'Open' }, '-created_date', 20);
+      return marginbites.entities.SystemError.filter({ status: 'Open' }, { sort: '-created', perPage: 20 });
     }
   });
 

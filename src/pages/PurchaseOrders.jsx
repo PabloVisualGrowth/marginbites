@@ -74,7 +74,7 @@ export default function PurchaseOrders({ selectedLocationId }) {
       if (!selectedLocationId) return [];
       const filters = { location_id: selectedLocationId };
       if (statusFilter !== 'all') filters.status = statusFilter;
-      return marginbites.entities.PurchaseOrder.filter(filters, '-order_date', 50);
+      return marginbites.entities.PurchaseOrder.filter(filters, { sort: '-order_date', perPage: 50 });
     },
     enabled: !!selectedLocationId
   });
@@ -180,7 +180,7 @@ export default function PurchaseOrders({ selectedLocationId }) {
   const confirmVoicePOMutation = useMutation({
     mutationFn: async () => {
       const supplier = suppliers.find(s => s.id === voiceSupplierId);
-      const poCount = await marginbites.entities.PurchaseOrder.list('-created_date', 1);
+      const poCount = await marginbites.entities.PurchaseOrder.list('-created', 1);
       const poNum = poCount.length > 0
         ? parseInt(poCount[0].po_number?.split('-')[2] || '0') + 1 : 1;
       const totalAmount = voiceLines.reduce((sum, l) => sum + (l.ordered_qty * l.unit_price), 0);
@@ -285,7 +285,7 @@ export default function PurchaseOrders({ selectedLocationId }) {
         bySupplier[item.supplierId].push(item);
       });
 
-      const poCount = await marginbites.entities.PurchaseOrder.list('-created_date', 1);
+      const poCount = await marginbites.entities.PurchaseOrder.list('-created', 1);
       let poNum = poCount.length > 0 ? parseInt(poCount[0].po_number?.split('-')[2] || '0') + 1 : 1;
 
       for (const [supplierId, items] of Object.entries(bySupplier)) {

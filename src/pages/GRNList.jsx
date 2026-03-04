@@ -84,7 +84,7 @@ export default function GRNList({ selectedLocationId }) {
       if (!selectedLocationId) return [];
       const filters = { location_id: selectedLocationId };
       if (statusFilter !== 'all') filters.status = statusFilter;
-      return marginbites.entities.GRN.filter(filters, '-delivery_date', 50);
+      return marginbites.entities.GRN.filter(filters, { sort: '-delivery_date', perPage: 50 });
     },
     enabled: !!selectedLocationId
   });
@@ -108,15 +108,14 @@ export default function GRNList({ selectedLocationId }) {
     setUploadStep('Subiendo archivo...');
 
     try {
-      // Phase 1: Upload file
-      const { file_url } = await marginbites.integrations.Core.UploadFile({ file });
+      // Phase 1: Convert to base64 (used both for OCR and as local file reference)
+      const base64 = await fileToBase64(file);
+      const mimeType = file.type || 'image/jpeg';
+      // Store a data URL so it can be displayed / referenced later
+      const file_url = `data:${mimeType};base64,${base64}`;
       setPendingFileUrl(file_url);
       setUploadProgress(40);
       setUploadStep('Analizando imagen con IA...');
-
-      // Phase 2: Convert to base64
-      const base64 = await fileToBase64(file);
-      const mimeType = file.type || 'image/jpeg';
       setUploadProgress(60);
 
       // Phase 3: Call Vision API
@@ -177,7 +176,7 @@ export default function GRNList({ selectedLocationId }) {
   const confirmGRNMutation = useMutation({
     mutationFn: async () => {
       const supplier = suppliers.find(s => s.id === validationData.supplier_id);
-      const grnCount = await marginbites.entities.GRN.list('-created_date', 1);
+      const grnCount = await marginbites.entities.GRN.list('-created', 1);
       const grnNum = grnCount.length > 0
         ? parseInt(grnCount[0].grn_number?.split('-')[2] || '0') + 1 : 1;
 

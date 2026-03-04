@@ -2,648 +2,1952 @@
   {
     "name": "locations",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "code", "type": "text", "required": true },
-      { "name": "name", "type": "text", "required": true },
-      { "name": "address", "type": "text" },
-      { "name": "timezone", "type": "text" },
-      { "name": "is_active", "type": "bool" },
-      { "name": "settings", "type": "json" }
+      {
+        "name": "code",
+        "type": "text"
+      },
+      {
+        "name": "name",
+        "type": "text"
+      },
+      {
+        "name": "address",
+        "type": "text"
+      },
+      {
+        "name": "timezone",
+        "type": "text"
+      },
+      {
+        "name": "is_active",
+        "type": "bool"
+      },
+      {
+        "name": "settings",
+        "type": "json",
+        "maxSize": 5242880
+      }
     ]
   },
   {
     "name": "units",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "code", "type": "text", "required": true },
-      { "name": "name", "type": "text", "required": true },
-      { "name": "unit_type", "type": "select", "required": true, "maxSelect": 1, "values": ["weight", "volume", "count", "package"] },
-      { "name": "base_unit_code", "type": "text" },
-      { "name": "conversion_factor_to_base", "type": "number" }
+      {
+        "name": "code",
+        "type": "text"
+      },
+      {
+        "name": "name",
+        "type": "text"
+      },
+      {
+        "name": "unit_type",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "weight",
+          "volume",
+          "count",
+          "package"
+        ]
+      },
+      {
+        "name": "base_unit_code",
+        "type": "text"
+      },
+      {
+        "name": "conversion_factor_to_base",
+        "type": "number"
+      }
     ]
   },
   {
     "name": "suppliers",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "supplier_code", "type": "text", "required": true },
-      { "name": "name", "type": "text", "required": true },
-      { "name": "tax_id", "type": "text" },
-      { "name": "email", "type": "email" },
-      { "name": "phone", "type": "text" },
-      { "name": "preferred_order_channel", "type": "select", "maxSelect": 1, "values": ["email", "whatsapp"] },
-      { "name": "whatsapp_number", "type": "text" },
-      { "name": "payment_terms", "type": "text" },
-      { "name": "is_active", "type": "bool" },
-      { "name": "matching_aliases", "type": "json" },
-      { "name": "address", "type": "text" }
+      {
+        "name": "supplier_code",
+        "type": "text"
+      },
+      {
+        "name": "name",
+        "type": "text"
+      },
+      {
+        "name": "tax_id",
+        "type": "text"
+      },
+      {
+        "name": "email",
+        "type": "text"
+      },
+      {
+        "name": "phone",
+        "type": "text"
+      },
+      {
+        "name": "preferred_order_channel",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "email",
+          "whatsapp"
+        ]
+      },
+      {
+        "name": "whatsapp_number",
+        "type": "text"
+      },
+      {
+        "name": "payment_terms",
+        "type": "text"
+      },
+      {
+        "name": "is_active",
+        "type": "bool"
+      },
+      {
+        "name": "matching_aliases",
+        "type": "json",
+        "maxSize": 5242880
+      },
+      {
+        "name": "address",
+        "type": "text"
+      }
     ]
   },
   {
     "name": "storage_areas",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "location_id", "type": "text", "required": true },
-      { "name": "code", "type": "text", "required": true },
-      { "name": "name", "type": "text", "required": true },
-      { "name": "is_active", "type": "bool" }
+      {
+        "name": "location_id",
+        "type": "text"
+      },
+      {
+        "name": "code",
+        "type": "text"
+      },
+      {
+        "name": "name",
+        "type": "text"
+      },
+      {
+        "name": "is_active",
+        "type": "bool"
+      }
     ]
   },
   {
     "name": "products",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "sku", "type": "text", "required": true },
-      { "name": "product_name", "type": "text", "required": true },
-      { "name": "category", "type": "select", "maxSelect": 1, "values": ["Carne", "Pescado", "Verduras", "Lacteos", "Secos", "Bebidas", "Otros"] },
-      { "name": "base_unit_id", "type": "text" },
-      { "name": "base_unit_code", "type": "text" },
-      { "name": "purchase_unit_id", "type": "text" },
-      { "name": "purchase_unit_code", "type": "text" },
-      { "name": "conversion_purchase_to_base", "type": "number" },
-      { "name": "avg_price", "type": "number" },
-      { "name": "current_reference_price", "type": "number" },
-      { "name": "default_supplier_id", "type": "text" },
-      { "name": "default_supplier_name", "type": "text" },
-      { "name": "is_key_product", "type": "bool" },
-      { "name": "is_active", "type": "bool" },
-      { "name": "barcode", "type": "text" },
-      { "name": "matching_aliases", "type": "json" },
-      { "name": "preferred_storage_area_id", "type": "text" },
-      { "name": "min_stock_level", "type": "number" }
+      {
+        "name": "sku",
+        "type": "text"
+      },
+      {
+        "name": "product_name",
+        "type": "text"
+      },
+      {
+        "name": "category",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "Carne",
+          "Pescado",
+          "Verduras",
+          "Lacteos",
+          "Secos",
+          "Bebidas",
+          "Otros"
+        ]
+      },
+      {
+        "name": "base_unit_id",
+        "type": "text"
+      },
+      {
+        "name": "base_unit_code",
+        "type": "text"
+      },
+      {
+        "name": "purchase_unit_id",
+        "type": "text"
+      },
+      {
+        "name": "purchase_unit_code",
+        "type": "text"
+      },
+      {
+        "name": "conversion_purchase_to_base",
+        "type": "number"
+      },
+      {
+        "name": "avg_price",
+        "type": "number"
+      },
+      {
+        "name": "current_reference_price",
+        "type": "number"
+      },
+      {
+        "name": "default_supplier_id",
+        "type": "text"
+      },
+      {
+        "name": "default_supplier_name",
+        "type": "text"
+      },
+      {
+        "name": "is_key_product",
+        "type": "bool"
+      },
+      {
+        "name": "is_active",
+        "type": "bool"
+      },
+      {
+        "name": "barcode",
+        "type": "text"
+      },
+      {
+        "name": "matching_aliases",
+        "type": "json",
+        "maxSize": 5242880
+      },
+      {
+        "name": "preferred_storage_area_id",
+        "type": "text"
+      },
+      {
+        "name": "min_stock_level",
+        "type": "number"
+      }
     ]
   },
   {
     "name": "recipes",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "recipe_code", "type": "text", "required": true },
-      { "name": "recipe_name", "type": "text", "required": true },
-      { "name": "location_id", "type": "text" },
-      { "name": "yield_qty", "type": "number" },
-      { "name": "yield_unit_id", "type": "text" },
-      { "name": "yield_unit_code", "type": "text" },
-      { "name": "is_active", "type": "bool" },
-      { "name": "sales_item_mapping_keys", "type": "json" },
-      { "name": "expected_waste_pct", "type": "number" },
-      { "name": "category", "type": "select", "maxSelect": 1, "values": ["Entrantes", "Principales", "Postres", "Bebidas", "Otros"] },
-      { "name": "cost_per_portion", "type": "number" },
-      { "name": "ingredients_count", "type": "number" }
+      {
+        "name": "recipe_code",
+        "type": "text"
+      },
+      {
+        "name": "recipe_name",
+        "type": "text"
+      },
+      {
+        "name": "location_id",
+        "type": "text"
+      },
+      {
+        "name": "yield_qty",
+        "type": "number"
+      },
+      {
+        "name": "yield_unit_id",
+        "type": "text"
+      },
+      {
+        "name": "yield_unit_code",
+        "type": "text"
+      },
+      {
+        "name": "is_active",
+        "type": "bool"
+      },
+      {
+        "name": "sales_item_mapping_keys",
+        "type": "json",
+        "maxSize": 5242880
+      },
+      {
+        "name": "expected_waste_pct",
+        "type": "number"
+      },
+      {
+        "name": "category",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "Entrantes",
+          "Principales",
+          "Postres",
+          "Bebidas",
+          "Otros"
+        ]
+      },
+      {
+        "name": "cost_per_portion",
+        "type": "number"
+      },
+      {
+        "name": "ingredients_count",
+        "type": "number"
+      }
     ]
   },
   {
     "name": "recipe_lines",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "recipe_id", "type": "text", "required": true },
-      { "name": "recipe_code", "type": "text" },
-      { "name": "recipe_name", "type": "text" },
-      { "name": "product_id", "type": "text", "required": true },
-      { "name": "product_name", "type": "text" },
-      { "name": "product_sku", "type": "text" },
-      { "name": "quantity", "type": "number", "required": true },
-      { "name": "unit_id", "type": "text" },
-      { "name": "unit_code", "type": "text" },
-      { "name": "quantity_base", "type": "number" },
-      { "name": "unit_cost_snapshot", "type": "number" },
-      { "name": "line_cost", "type": "number" },
-      { "name": "is_optional", "type": "bool" }
+      {
+        "name": "recipe_id",
+        "type": "text"
+      },
+      {
+        "name": "recipe_code",
+        "type": "text"
+      },
+      {
+        "name": "recipe_name",
+        "type": "text"
+      },
+      {
+        "name": "product_id",
+        "type": "text"
+      },
+      {
+        "name": "product_name",
+        "type": "text"
+      },
+      {
+        "name": "product_sku",
+        "type": "text"
+      },
+      {
+        "name": "quantity",
+        "type": "number"
+      },
+      {
+        "name": "unit_id",
+        "type": "text"
+      },
+      {
+        "name": "unit_code",
+        "type": "text"
+      },
+      {
+        "name": "quantity_base",
+        "type": "number"
+      },
+      {
+        "name": "unit_cost_snapshot",
+        "type": "number"
+      },
+      {
+        "name": "line_cost",
+        "type": "number"
+      },
+      {
+        "name": "is_optional",
+        "type": "bool"
+      }
     ]
   },
   {
     "name": "sales_items",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "external_item_id", "type": "text" },
-      { "name": "name", "type": "text", "required": true },
-      { "name": "category", "type": "text" },
-      { "name": "recipe_id", "type": "text" },
-      { "name": "recipe_name", "type": "text" },
-      { "name": "location_id", "type": "text" },
-      { "name": "is_active", "type": "bool" },
-      { "name": "mapping_confidence", "type": "number" },
-      { "name": "price", "type": "number" }
+      {
+        "name": "external_item_id",
+        "type": "text"
+      },
+      {
+        "name": "name",
+        "type": "text"
+      },
+      {
+        "name": "category",
+        "type": "text"
+      },
+      {
+        "name": "recipe_id",
+        "type": "text"
+      },
+      {
+        "name": "recipe_name",
+        "type": "text"
+      },
+      {
+        "name": "location_id",
+        "type": "text"
+      },
+      {
+        "name": "is_active",
+        "type": "bool"
+      },
+      {
+        "name": "mapping_confidence",
+        "type": "number"
+      },
+      {
+        "name": "price",
+        "type": "number"
+      }
     ]
   },
   {
     "name": "sales_daily",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "sale_date", "type": "text", "required": true },
-      { "name": "location_id", "type": "text", "required": true },
-      { "name": "location_name", "type": "text" },
-      { "name": "sales_item_id", "type": "text", "required": true },
-      { "name": "sales_item_name", "type": "text" },
-      { "name": "recipe_id", "type": "text" },
-      { "name": "quantity_sold", "type": "number" },
-      { "name": "gross_sales_amount", "type": "number" },
-      { "name": "net_sales_amount", "type": "number" },
-      { "name": "source", "type": "select", "maxSelect": 1, "values": ["tpv_webhook", "csv_import", "manual"] },
-      { "name": "source_sync_batch_id", "type": "text" }
+      {
+        "name": "sale_date",
+        "type": "text"
+      },
+      {
+        "name": "location_id",
+        "type": "text"
+      },
+      {
+        "name": "location_name",
+        "type": "text"
+      },
+      {
+        "name": "sales_item_id",
+        "type": "text"
+      },
+      {
+        "name": "sales_item_name",
+        "type": "text"
+      },
+      {
+        "name": "recipe_id",
+        "type": "text"
+      },
+      {
+        "name": "quantity_sold",
+        "type": "number"
+      },
+      {
+        "name": "gross_sales_amount",
+        "type": "number"
+      },
+      {
+        "name": "net_sales_amount",
+        "type": "number"
+      },
+      {
+        "name": "source",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "tpv_webhook",
+          "csv_import",
+          "manual"
+        ]
+      },
+      {
+        "name": "source_sync_batch_id",
+        "type": "text"
+      }
     ]
   },
   {
     "name": "purchase_orders",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "po_number", "type": "text" },
-      { "name": "location_id", "type": "text", "required": true },
-      { "name": "location_name", "type": "text" },
-      { "name": "supplier_id", "type": "text", "required": true },
-      { "name": "supplier_name", "type": "text" },
-      { "name": "order_date", "type": "text" },
-      { "name": "requested_delivery_date", "type": "text" },
-      { "name": "status", "type": "select", "maxSelect": 1, "values": ["Draft", "Suggested", "Sent", "Partially_Received", "Received", "Cancelled"] },
-      { "name": "source", "type": "select", "maxSelect": 1, "values": ["manual", "auto_suggestion", "voice"] },
-      { "name": "notes", "type": "text" },
-      { "name": "sent_via", "type": "select", "maxSelect": 1, "values": ["email", "whatsapp", "none"] },
-      { "name": "sent_at", "type": "text" },
-      { "name": "total_estimated_amount", "type": "number" },
-      { "name": "lines_count", "type": "number" }
+      {
+        "name": "po_number",
+        "type": "text"
+      },
+      {
+        "name": "location_id",
+        "type": "text"
+      },
+      {
+        "name": "location_name",
+        "type": "text"
+      },
+      {
+        "name": "supplier_id",
+        "type": "text"
+      },
+      {
+        "name": "supplier_name",
+        "type": "text"
+      },
+      {
+        "name": "order_date",
+        "type": "text"
+      },
+      {
+        "name": "requested_delivery_date",
+        "type": "text"
+      },
+      {
+        "name": "status",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "Draft",
+          "Suggested",
+          "Sent",
+          "Partially_Received",
+          "Received",
+          "Cancelled"
+        ]
+      },
+      {
+        "name": "source",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "manual",
+          "auto_suggestion",
+          "voice"
+        ]
+      },
+      {
+        "name": "notes",
+        "type": "text"
+      },
+      {
+        "name": "sent_via",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "email",
+          "whatsapp",
+          "none"
+        ]
+      },
+      {
+        "name": "sent_at",
+        "type": "text"
+      },
+      {
+        "name": "total_estimated_amount",
+        "type": "number"
+      },
+      {
+        "name": "lines_count",
+        "type": "number"
+      }
     ]
   },
   {
     "name": "po_lines",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "purchase_order_id", "type": "text", "required": true },
-      { "name": "po_number", "type": "text" },
-      { "name": "product_id", "type": "text", "required": true },
-      { "name": "product_name", "type": "text" },
-      { "name": "product_sku", "type": "text" },
-      { "name": "unit_id", "type": "text" },
-      { "name": "unit_code", "type": "text" },
-      { "name": "suggested_qty", "type": "number" },
-      { "name": "ordered_qty", "type": "number" },
-      { "name": "received_qty", "type": "number" },
-      { "name": "unit_price_estimated", "type": "number" },
-      { "name": "line_total_estimated", "type": "number" },
-      { "name": "suggestion_reason", "type": "text" },
-      { "name": "line_status", "type": "select", "maxSelect": 1, "values": ["Open", "Partial", "Received", "Cancelled"] }
+      {
+        "name": "purchase_order_id",
+        "type": "text"
+      },
+      {
+        "name": "po_number",
+        "type": "text"
+      },
+      {
+        "name": "product_id",
+        "type": "text"
+      },
+      {
+        "name": "product_name",
+        "type": "text"
+      },
+      {
+        "name": "product_sku",
+        "type": "text"
+      },
+      {
+        "name": "unit_id",
+        "type": "text"
+      },
+      {
+        "name": "unit_code",
+        "type": "text"
+      },
+      {
+        "name": "suggested_qty",
+        "type": "number"
+      },
+      {
+        "name": "ordered_qty",
+        "type": "number"
+      },
+      {
+        "name": "received_qty",
+        "type": "number"
+      },
+      {
+        "name": "unit_price_estimated",
+        "type": "number"
+      },
+      {
+        "name": "line_total_estimated",
+        "type": "number"
+      },
+      {
+        "name": "suggestion_reason",
+        "type": "text"
+      },
+      {
+        "name": "line_status",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "Open",
+          "Partial",
+          "Received",
+          "Cancelled"
+        ]
+      }
     ]
   },
   {
     "name": "grns",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "grn_number", "type": "text" },
-      { "name": "location_id", "type": "text", "required": true },
-      { "name": "location_name", "type": "text" },
-      { "name": "supplier_id", "type": "text" },
-      { "name": "supplier_name", "type": "text" },
-      { "name": "purchase_order_id", "type": "text" },
-      { "name": "po_number", "type": "text" },
-      { "name": "delivery_date", "type": "text" },
-      { "name": "albaran_number", "type": "text" },
-      { "name": "albaran_file_url", "type": "text" },
-      { "name": "ocr_processed", "type": "bool" },
-      { "name": "ocr_confidence", "type": "number" },
-      { "name": "ocr_provider", "type": "text" },
-      { "name": "ocr_raw_payload", "type": "json" },
-      { "name": "status", "type": "select", "maxSelect": 1, "values": ["Draft", "OCR_Processing", "Pending_Validation", "Validated", "Posted", "Rejected"] },
-      { "name": "total_amount", "type": "number" },
-      { "name": "validation_notes", "type": "text" },
-      { "name": "validated_by_user_id", "type": "text" },
-      { "name": "validated_by_name", "type": "text" },
-      { "name": "validated_at", "type": "text" },
-      { "name": "posted_at", "type": "text" },
-      { "name": "lines_count", "type": "number" },
-      { "name": "incidents_count", "type": "number" }
+      {
+        "name": "grn_number",
+        "type": "text"
+      },
+      {
+        "name": "location_id",
+        "type": "text"
+      },
+      {
+        "name": "location_name",
+        "type": "text"
+      },
+      {
+        "name": "supplier_id",
+        "type": "text"
+      },
+      {
+        "name": "supplier_name",
+        "type": "text"
+      },
+      {
+        "name": "purchase_order_id",
+        "type": "text"
+      },
+      {
+        "name": "po_number",
+        "type": "text"
+      },
+      {
+        "name": "delivery_date",
+        "type": "text"
+      },
+      {
+        "name": "albaran_number",
+        "type": "text"
+      },
+      {
+        "name": "albaran_file_url",
+        "type": "text"
+      },
+      {
+        "name": "ocr_processed",
+        "type": "bool"
+      },
+      {
+        "name": "ocr_confidence",
+        "type": "number"
+      },
+      {
+        "name": "ocr_provider",
+        "type": "text"
+      },
+      {
+        "name": "ocr_raw_payload",
+        "type": "json",
+        "maxSize": 5242880
+      },
+      {
+        "name": "status",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "Draft",
+          "OCR_Processing",
+          "Pending_Validation",
+          "Validated",
+          "Posted",
+          "Rejected"
+        ]
+      },
+      {
+        "name": "total_amount",
+        "type": "number"
+      },
+      {
+        "name": "validation_notes",
+        "type": "text"
+      },
+      {
+        "name": "validated_by_user_id",
+        "type": "text"
+      },
+      {
+        "name": "validated_by_name",
+        "type": "text"
+      },
+      {
+        "name": "validated_at",
+        "type": "text"
+      },
+      {
+        "name": "posted_at",
+        "type": "text"
+      },
+      {
+        "name": "lines_count",
+        "type": "number"
+      },
+      {
+        "name": "incidents_count",
+        "type": "number"
+      }
     ]
   },
   {
     "name": "grn_lines",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "grn_id", "type": "text", "required": true },
-      { "name": "grn_number", "type": "text" },
-      { "name": "product_id", "type": "text" },
-      { "name": "product_name", "type": "text" },
-      { "name": "product_sku", "type": "text" },
-      { "name": "unit_id", "type": "text" },
-      { "name": "unit_code", "type": "text" },
-      { "name": "ordered_qty", "type": "number" },
-      { "name": "received_qty", "type": "number" },
-      { "name": "unit_price", "type": "number" },
-      { "name": "line_total", "type": "number" },
-      { "name": "ocr_confidence", "type": "number" },
-      { "name": "variance_qty", "type": "number" },
-      { "name": "variance_pct", "type": "number" },
-      { "name": "has_incident", "type": "bool" }
+      {
+        "name": "grn_id",
+        "type": "text"
+      },
+      {
+        "name": "grn_number",
+        "type": "text"
+      },
+      {
+        "name": "product_id",
+        "type": "text"
+      },
+      {
+        "name": "product_name",
+        "type": "text"
+      },
+      {
+        "name": "product_sku",
+        "type": "text"
+      },
+      {
+        "name": "unit_id",
+        "type": "text"
+      },
+      {
+        "name": "unit_code",
+        "type": "text"
+      },
+      {
+        "name": "ordered_qty",
+        "type": "number"
+      },
+      {
+        "name": "received_qty",
+        "type": "number"
+      },
+      {
+        "name": "unit_price",
+        "type": "number"
+      },
+      {
+        "name": "line_total",
+        "type": "number"
+      },
+      {
+        "name": "ocr_confidence",
+        "type": "number"
+      },
+      {
+        "name": "variance_qty",
+        "type": "number"
+      },
+      {
+        "name": "variance_pct",
+        "type": "number"
+      },
+      {
+        "name": "has_incident",
+        "type": "bool"
+      }
     ]
   },
   {
     "name": "grn_incidents",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "grn_id", "type": "text", "required": true },
-      { "name": "grn_number", "type": "text" },
-      { "name": "grn_line_id", "type": "text" },
-      { "name": "incident_type", "type": "select", "maxSelect": 1, "values": ["price_mismatch", "qty_short", "damaged", "wrong_product", "missing_item", "extra_item", "other"] },
-      { "name": "severity", "type": "select", "maxSelect": 1, "values": ["low", "medium", "high"] },
-      { "name": "description", "type": "text", "required": true },
-      { "name": "impact_eur", "type": "number" },
-      { "name": "resolved", "type": "bool" },
-      { "name": "resolved_by_user_id", "type": "text" },
-      { "name": "resolved_at", "type": "text" }
+      {
+        "name": "grn_id",
+        "type": "text"
+      },
+      {
+        "name": "grn_number",
+        "type": "text"
+      },
+      {
+        "name": "grn_line_id",
+        "type": "text"
+      },
+      {
+        "name": "incident_type",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "price_mismatch",
+          "qty_short",
+          "damaged",
+          "wrong_product",
+          "missing_item",
+          "extra_item",
+          "other"
+        ]
+      },
+      {
+        "name": "severity",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "low",
+          "medium",
+          "high"
+        ]
+      },
+      {
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "name": "impact_eur",
+        "type": "number"
+      },
+      {
+        "name": "resolved",
+        "type": "bool"
+      },
+      {
+        "name": "resolved_by_user_id",
+        "type": "text"
+      },
+      {
+        "name": "resolved_at",
+        "type": "text"
+      }
     ]
   },
   {
     "name": "inventories",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "inventory_number", "type": "text" },
-      { "name": "location_id", "type": "text", "required": true },
-      { "name": "location_name", "type": "text" },
-      { "name": "inventory_type", "type": "select", "required": true, "maxSelect": 1, "values": ["full", "express", "anomaly_triggered"] },
-      { "name": "status", "type": "select", "maxSelect": 1, "values": ["Draft", "In_Progress", "Submitted", "Reviewed", "Posted", "Closed", "Cancelled"] },
-      { "name": "count_scope", "type": "select", "maxSelect": 1, "values": ["all_products", "key_products", "custom_list"] },
-      { "name": "started_at", "type": "text" },
-      { "name": "completed_at", "type": "text" },
-      { "name": "reviewed_by_user_id", "type": "text" },
-      { "name": "reviewed_by_name", "type": "text" },
-      { "name": "auto_post_corrections", "type": "bool" },
-      { "name": "anomaly_reasons", "type": "json" },
-      { "name": "notes", "type": "text" },
-      { "name": "lines_count", "type": "number" },
-      { "name": "lines_counted", "type": "number" },
-      { "name": "lines_flagged", "type": "number" },
-      { "name": "total_variance_value", "type": "number" }
+      {
+        "name": "inventory_number",
+        "type": "text"
+      },
+      {
+        "name": "location_id",
+        "type": "text"
+      },
+      {
+        "name": "location_name",
+        "type": "text"
+      },
+      {
+        "name": "inventory_type",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "full",
+          "express",
+          "anomaly_triggered"
+        ]
+      },
+      {
+        "name": "status",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "Draft",
+          "In_Progress",
+          "Submitted",
+          "Reviewed",
+          "Posted",
+          "Closed",
+          "Cancelled"
+        ]
+      },
+      {
+        "name": "count_scope",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "all_products",
+          "key_products",
+          "custom_list"
+        ]
+      },
+      {
+        "name": "started_at",
+        "type": "text"
+      },
+      {
+        "name": "completed_at",
+        "type": "text"
+      },
+      {
+        "name": "reviewed_by_user_id",
+        "type": "text"
+      },
+      {
+        "name": "reviewed_by_name",
+        "type": "text"
+      },
+      {
+        "name": "auto_post_corrections",
+        "type": "bool"
+      },
+      {
+        "name": "anomaly_reasons",
+        "type": "json",
+        "maxSize": 5242880
+      },
+      {
+        "name": "notes",
+        "type": "text"
+      },
+      {
+        "name": "lines_count",
+        "type": "number"
+      },
+      {
+        "name": "lines_counted",
+        "type": "number"
+      },
+      {
+        "name": "lines_flagged",
+        "type": "number"
+      },
+      {
+        "name": "total_variance_value",
+        "type": "number"
+      }
     ]
   },
   {
     "name": "inventory_lines",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "inventory_id", "type": "text", "required": true },
-      { "name": "location_id", "type": "text" },
-      { "name": "storage_area_id", "type": "text" },
-      { "name": "storage_area_name", "type": "text" },
-      { "name": "product_id", "type": "text", "required": true },
-      { "name": "product_name", "type": "text" },
-      { "name": "product_sku", "type": "text" },
-      { "name": "unit_id", "type": "text" },
-      { "name": "unit_code", "type": "text" },
-      { "name": "system_qty", "type": "number" },
-      { "name": "counted_qty", "type": "number" },
-      { "name": "variance_qty", "type": "number" },
-      { "name": "variance_pct", "type": "number" },
-      { "name": "unit_cost", "type": "number" },
-      { "name": "variance_value", "type": "number" },
-      { "name": "is_flagged", "type": "bool" },
-      { "name": "notes", "type": "text" }
+      {
+        "name": "inventory_id",
+        "type": "text"
+      },
+      {
+        "name": "location_id",
+        "type": "text"
+      },
+      {
+        "name": "storage_area_id",
+        "type": "text"
+      },
+      {
+        "name": "storage_area_name",
+        "type": "text"
+      },
+      {
+        "name": "product_id",
+        "type": "text"
+      },
+      {
+        "name": "product_name",
+        "type": "text"
+      },
+      {
+        "name": "product_sku",
+        "type": "text"
+      },
+      {
+        "name": "unit_id",
+        "type": "text"
+      },
+      {
+        "name": "unit_code",
+        "type": "text"
+      },
+      {
+        "name": "system_qty",
+        "type": "number"
+      },
+      {
+        "name": "counted_qty",
+        "type": "number"
+      },
+      {
+        "name": "variance_qty",
+        "type": "number"
+      },
+      {
+        "name": "variance_pct",
+        "type": "number"
+      },
+      {
+        "name": "unit_cost",
+        "type": "number"
+      },
+      {
+        "name": "variance_value",
+        "type": "number"
+      },
+      {
+        "name": "is_flagged",
+        "type": "bool"
+      },
+      {
+        "name": "notes",
+        "type": "text"
+      }
     ]
   },
   {
     "name": "stock_on_hand",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "location_id", "type": "text", "required": true },
-      { "name": "location_name", "type": "text" },
-      { "name": "storage_area_id", "type": "text" },
-      { "name": "storage_area_name", "type": "text" },
-      { "name": "product_id", "type": "text", "required": true },
-      { "name": "product_name", "type": "text" },
-      { "name": "product_sku", "type": "text" },
-      { "name": "product_category", "type": "text" },
-      { "name": "quantity_base", "type": "number" },
-      { "name": "base_unit_code", "type": "text" },
-      { "name": "avg_cost", "type": "number" },
-      { "name": "total_value", "type": "number" },
-      { "name": "last_movement_at", "type": "text" },
-      { "name": "is_negative", "type": "bool" },
-      { "name": "is_key_product", "type": "bool" },
-      { "name": "days_of_stock", "type": "number" },
-      { "name": "needs_reorder", "type": "bool" }
+      {
+        "name": "location_id",
+        "type": "text"
+      },
+      {
+        "name": "location_name",
+        "type": "text"
+      },
+      {
+        "name": "storage_area_id",
+        "type": "text"
+      },
+      {
+        "name": "storage_area_name",
+        "type": "text"
+      },
+      {
+        "name": "product_id",
+        "type": "text"
+      },
+      {
+        "name": "product_name",
+        "type": "text"
+      },
+      {
+        "name": "product_sku",
+        "type": "text"
+      },
+      {
+        "name": "product_category",
+        "type": "text"
+      },
+      {
+        "name": "quantity_base",
+        "type": "number"
+      },
+      {
+        "name": "base_unit_code",
+        "type": "text"
+      },
+      {
+        "name": "avg_cost",
+        "type": "number"
+      },
+      {
+        "name": "total_value",
+        "type": "number"
+      },
+      {
+        "name": "last_movement_at",
+        "type": "text"
+      },
+      {
+        "name": "is_negative",
+        "type": "bool"
+      },
+      {
+        "name": "is_key_product",
+        "type": "bool"
+      },
+      {
+        "name": "days_of_stock",
+        "type": "number"
+      },
+      {
+        "name": "needs_reorder",
+        "type": "bool"
+      }
     ]
   },
   {
     "name": "ledger_movements",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "movement_number", "type": "text" },
-      { "name": "movement_date", "type": "text", "required": true },
-      { "name": "location_id", "type": "text", "required": true },
-      { "name": "location_name", "type": "text" },
-      { "name": "storage_area_id", "type": "text" },
-      { "name": "storage_area_name", "type": "text" },
-      { "name": "product_id", "type": "text", "required": true },
-      { "name": "product_name", "type": "text" },
-      { "name": "product_sku", "type": "text" },
-      { "name": "movement_type", "type": "select", "maxSelect": 1, "values": ["GRN_IN", "CONSUMPTION_OUT", "WASTE_OUT", "TRANSFER_IN", "TRANSFER_OUT", "ADJUSTMENT_IN", "ADJUSTMENT_OUT", "INVENTORY_CORRECTION"] },
-      { "name": "quantity", "type": "number", "required": true },
-      { "name": "unit_id", "type": "text" },
-      { "name": "unit_code", "type": "text" },
-      { "name": "quantity_base", "type": "number" },
-      { "name": "unit_cost", "type": "number" },
-      { "name": "total_cost", "type": "number" },
-      { "name": "reference_type", "type": "select", "maxSelect": 1, "values": ["GRN", "Sales_Consumption", "Waste", "Inventory", "Manual_Adjustment", "Transfer"] },
-      { "name": "reference_id", "type": "text" },
-      { "name": "reference_number", "type": "text" },
-      { "name": "notes", "type": "text" },
-      { "name": "avg_cost_after", "type": "number" },
-      { "name": "stock_after", "type": "number" }
+      {
+        "name": "movement_number",
+        "type": "text"
+      },
+      {
+        "name": "movement_date",
+        "type": "text"
+      },
+      {
+        "name": "location_id",
+        "type": "text"
+      },
+      {
+        "name": "location_name",
+        "type": "text"
+      },
+      {
+        "name": "storage_area_id",
+        "type": "text"
+      },
+      {
+        "name": "storage_area_name",
+        "type": "text"
+      },
+      {
+        "name": "product_id",
+        "type": "text"
+      },
+      {
+        "name": "product_name",
+        "type": "text"
+      },
+      {
+        "name": "product_sku",
+        "type": "text"
+      },
+      {
+        "name": "movement_type",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "GRN_IN",
+          "CONSUMPTION_OUT",
+          "WASTE_OUT",
+          "TRANSFER_IN",
+          "TRANSFER_OUT",
+          "ADJUSTMENT_IN",
+          "ADJUSTMENT_OUT",
+          "INVENTORY_CORRECTION"
+        ]
+      },
+      {
+        "name": "quantity",
+        "type": "number"
+      },
+      {
+        "name": "unit_id",
+        "type": "text"
+      },
+      {
+        "name": "unit_code",
+        "type": "text"
+      },
+      {
+        "name": "quantity_base",
+        "type": "number"
+      },
+      {
+        "name": "unit_cost",
+        "type": "number"
+      },
+      {
+        "name": "total_cost",
+        "type": "number"
+      },
+      {
+        "name": "reference_type",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "GRN",
+          "Sales_Consumption",
+          "Waste",
+          "Inventory",
+          "Manual_Adjustment",
+          "Transfer"
+        ]
+      },
+      {
+        "name": "reference_id",
+        "type": "text"
+      },
+      {
+        "name": "reference_number",
+        "type": "text"
+      },
+      {
+        "name": "notes",
+        "type": "text"
+      },
+      {
+        "name": "avg_cost_after",
+        "type": "number"
+      },
+      {
+        "name": "stock_after",
+        "type": "number"
+      }
     ]
   },
   {
     "name": "theoretical_consumptions",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "consumption_date", "type": "text", "required": true },
-      { "name": "location_id", "type": "text", "required": true },
-      { "name": "location_name", "type": "text" },
-      { "name": "product_id", "type": "text", "required": true },
-      { "name": "product_name", "type": "text" },
-      { "name": "product_sku", "type": "text" },
-      { "name": "sales_item_id", "type": "text" },
-      { "name": "sales_item_name", "type": "text" },
-      { "name": "recipe_id", "type": "text" },
-      { "name": "recipe_name", "type": "text" },
-      { "name": "quantity_consumed_base", "type": "number" },
-      { "name": "unit_cost", "type": "number" },
-      { "name": "total_cost", "type": "number" },
-      { "name": "source_sales_daily_id", "type": "text" }
+      {
+        "name": "consumption_date",
+        "type": "text"
+      },
+      {
+        "name": "location_id",
+        "type": "text"
+      },
+      {
+        "name": "location_name",
+        "type": "text"
+      },
+      {
+        "name": "product_id",
+        "type": "text"
+      },
+      {
+        "name": "product_name",
+        "type": "text"
+      },
+      {
+        "name": "product_sku",
+        "type": "text"
+      },
+      {
+        "name": "sales_item_id",
+        "type": "text"
+      },
+      {
+        "name": "sales_item_name",
+        "type": "text"
+      },
+      {
+        "name": "recipe_id",
+        "type": "text"
+      },
+      {
+        "name": "recipe_name",
+        "type": "text"
+      },
+      {
+        "name": "quantity_consumed_base",
+        "type": "number"
+      },
+      {
+        "name": "unit_cost",
+        "type": "number"
+      },
+      {
+        "name": "total_cost",
+        "type": "number"
+      },
+      {
+        "name": "source_sales_daily_id",
+        "type": "text"
+      }
     ]
   },
   {
     "name": "food_cost_daily",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "date", "type": "text", "required": true },
-      { "name": "location_id", "type": "text", "required": true },
-      { "name": "location_name", "type": "text" },
-      { "name": "sales_amount", "type": "number" },
-      { "name": "theoretical_cogs", "type": "number" },
-      { "name": "actual_cogs", "type": "number" },
-      { "name": "theoretical_fc_pct", "type": "number" },
-      { "name": "actual_fc_pct", "type": "number" },
-      { "name": "gap_pct", "type": "number" },
-      { "name": "gap_eur", "type": "number" },
-      { "name": "status", "type": "select", "maxSelect": 1, "values": ["Calculated", "Reviewed"] },
-      { "name": "opening_stock_value", "type": "number" },
-      { "name": "purchases_value", "type": "number" },
-      { "name": "closing_stock_value", "type": "number" },
-      { "name": "adjustments_value", "type": "number" },
-      { "name": "generated_at", "type": "text" }
+      {
+        "name": "date",
+        "type": "text"
+      },
+      {
+        "name": "location_id",
+        "type": "text"
+      },
+      {
+        "name": "location_name",
+        "type": "text"
+      },
+      {
+        "name": "sales_amount",
+        "type": "number"
+      },
+      {
+        "name": "theoretical_cogs",
+        "type": "number"
+      },
+      {
+        "name": "actual_cogs",
+        "type": "number"
+      },
+      {
+        "name": "theoretical_fc_pct",
+        "type": "number"
+      },
+      {
+        "name": "actual_fc_pct",
+        "type": "number"
+      },
+      {
+        "name": "gap_pct",
+        "type": "number"
+      },
+      {
+        "name": "gap_eur",
+        "type": "number"
+      },
+      {
+        "name": "status",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "Calculated",
+          "Reviewed"
+        ]
+      },
+      {
+        "name": "opening_stock_value",
+        "type": "number"
+      },
+      {
+        "name": "purchases_value",
+        "type": "number"
+      },
+      {
+        "name": "closing_stock_value",
+        "type": "number"
+      },
+      {
+        "name": "adjustments_value",
+        "type": "number"
+      },
+      {
+        "name": "generated_at",
+        "type": "text"
+      }
     ]
   },
   {
     "name": "gap_analysis",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "date", "type": "text", "required": true },
-      { "name": "location_id", "type": "text", "required": true },
-      { "name": "location_name", "type": "text" },
-      { "name": "food_cost_daily_id", "type": "text" },
-      { "name": "driver_1_purchases_price_eur", "type": "number" },
-      { "name": "driver_2_reception_incidents_eur", "type": "number" },
-      { "name": "driver_3_yield_waste_eur", "type": "number" },
-      { "name": "driver_4_service_waste_eur", "type": "number" },
-      { "name": "driver_1_pct", "type": "number" },
-      { "name": "driver_2_pct", "type": "number" },
-      { "name": "driver_3_pct", "type": "number" },
-      { "name": "driver_4_pct", "type": "number" },
-      { "name": "top_products", "type": "json" },
-      { "name": "top_dishes", "type": "json" },
-      { "name": "analysis_json", "type": "json" }
+      {
+        "name": "date",
+        "type": "text"
+      },
+      {
+        "name": "location_id",
+        "type": "text"
+      },
+      {
+        "name": "location_name",
+        "type": "text"
+      },
+      {
+        "name": "food_cost_daily_id",
+        "type": "text"
+      },
+      {
+        "name": "driver_1_purchases_price_eur",
+        "type": "number"
+      },
+      {
+        "name": "driver_2_reception_incidents_eur",
+        "type": "number"
+      },
+      {
+        "name": "driver_3_yield_waste_eur",
+        "type": "number"
+      },
+      {
+        "name": "driver_4_service_waste_eur",
+        "type": "number"
+      },
+      {
+        "name": "driver_1_pct",
+        "type": "number"
+      },
+      {
+        "name": "driver_2_pct",
+        "type": "number"
+      },
+      {
+        "name": "driver_3_pct",
+        "type": "number"
+      },
+      {
+        "name": "driver_4_pct",
+        "type": "number"
+      },
+      {
+        "name": "top_products",
+        "type": "json",
+        "maxSize": 5242880
+      },
+      {
+        "name": "top_dishes",
+        "type": "json",
+        "maxSize": 5242880
+      },
+      {
+        "name": "analysis_json",
+        "type": "json",
+        "maxSize": 5242880
+      }
     ]
   },
   {
     "name": "recommendations",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "date", "type": "text", "required": true },
-      { "name": "location_id", "type": "text", "required": true },
-      { "name": "location_name", "type": "text" },
-      { "name": "gap_analysis_id", "type": "text" },
-      { "name": "priority", "type": "select", "maxSelect": 1, "values": ["High", "Medium", "Low"] },
-      { "name": "title", "type": "text" },
-      { "name": "text", "type": "text", "required": true },
-      { "name": "estimated_impact_eur", "type": "number" },
-      { "name": "related_driver", "type": "select", "maxSelect": 1, "values": ["driver_1", "driver_2", "driver_3", "driver_4"] },
-      { "name": "related_product_id", "type": "text" },
-      { "name": "related_product_name", "type": "text" },
-      { "name": "related_recipe_id", "type": "text" },
-      { "name": "related_recipe_name", "type": "text" },
-      { "name": "source", "type": "select", "maxSelect": 1, "values": ["rules", "llm"] },
-      { "name": "status", "type": "select", "maxSelect": 1, "values": ["Open", "Acknowledged", "In_Progress", "Done", "Dismissed"] },
-      { "name": "action_type", "type": "select", "maxSelect": 1, "values": ["review_prices", "check_reception", "inventory_express", "review_waste", "review_portions", "negotiate_supplier", "other"] }
+      {
+        "name": "date",
+        "type": "text"
+      },
+      {
+        "name": "location_id",
+        "type": "text"
+      },
+      {
+        "name": "location_name",
+        "type": "text"
+      },
+      {
+        "name": "gap_analysis_id",
+        "type": "text"
+      },
+      {
+        "name": "priority",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "High",
+          "Medium",
+          "Low"
+        ]
+      },
+      {
+        "name": "title",
+        "type": "text"
+      },
+      {
+        "name": "text",
+        "type": "text"
+      },
+      {
+        "name": "estimated_impact_eur",
+        "type": "number"
+      },
+      {
+        "name": "related_driver",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "driver_1",
+          "driver_2",
+          "driver_3",
+          "driver_4"
+        ]
+      },
+      {
+        "name": "related_product_id",
+        "type": "text"
+      },
+      {
+        "name": "related_product_name",
+        "type": "text"
+      },
+      {
+        "name": "related_recipe_id",
+        "type": "text"
+      },
+      {
+        "name": "related_recipe_name",
+        "type": "text"
+      },
+      {
+        "name": "source",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "rules",
+          "llm"
+        ]
+      },
+      {
+        "name": "status",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "Open",
+          "Acknowledged",
+          "In_Progress",
+          "Done",
+          "Dismissed"
+        ]
+      },
+      {
+        "name": "action_type",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "review_prices",
+          "check_reception",
+          "inventory_express",
+          "review_waste",
+          "review_portions",
+          "negotiate_supplier",
+          "other"
+        ]
+      }
     ]
   },
   {
     "name": "notifications",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "channel", "type": "select", "maxSelect": 1, "values": ["in_app", "email", "whatsapp"] },
-      { "name": "recipient_user_id", "type": "text" },
-      { "name": "recipient_email", "type": "text" },
-      { "name": "title", "type": "text", "required": true },
-      { "name": "message", "type": "text", "required": true },
-      { "name": "related_entity_type", "type": "text" },
-      { "name": "related_entity_id", "type": "text" },
-      { "name": "related_url", "type": "text" },
-      { "name": "priority", "type": "select", "maxSelect": 1, "values": ["low", "medium", "high", "critical"] },
-      { "name": "status", "type": "select", "maxSelect": 1, "values": ["Pending", "Sent", "Failed", "Read"] },
-      { "name": "sent_at", "type": "text" },
-      { "name": "read_at", "type": "text" },
-      { "name": "error_message", "type": "text" },
-      { "name": "location_id", "type": "text" }
+      {
+        "name": "channel",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "in_app",
+          "email",
+          "whatsapp"
+        ]
+      },
+      {
+        "name": "recipient_user_id",
+        "type": "text"
+      },
+      {
+        "name": "recipient_email",
+        "type": "text"
+      },
+      {
+        "name": "title",
+        "type": "text"
+      },
+      {
+        "name": "message",
+        "type": "text"
+      },
+      {
+        "name": "related_entity_type",
+        "type": "text"
+      },
+      {
+        "name": "related_entity_id",
+        "type": "text"
+      },
+      {
+        "name": "related_url",
+        "type": "text"
+      },
+      {
+        "name": "priority",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "low",
+          "medium",
+          "high",
+          "critical"
+        ]
+      },
+      {
+        "name": "status",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "Pending",
+          "Sent",
+          "Failed",
+          "Read"
+        ]
+      },
+      {
+        "name": "sent_at",
+        "type": "text"
+      },
+      {
+        "name": "read_at",
+        "type": "text"
+      },
+      {
+        "name": "error_message",
+        "type": "text"
+      },
+      {
+        "name": "location_id",
+        "type": "text"
+      }
     ]
   },
   {
     "name": "audit_logs",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "actor_user_id", "type": "text" },
-      { "name": "actor_email", "type": "text" },
-      { "name": "actor_name", "type": "text" },
-      { "name": "action_type", "type": "select", "maxSelect": 1, "values": ["create", "update", "delete", "validate", "post", "login", "export", "sync", "recalc", "approve", "reject"] },
-      { "name": "entity_type", "type": "text", "required": true },
-      { "name": "entity_id", "type": "text" },
-      { "name": "entity_number", "type": "text" },
-      { "name": "before_json", "type": "json" },
-      { "name": "after_json", "type": "json" },
-      { "name": "metadata_json", "type": "json" },
-      { "name": "ip_address", "type": "text" },
-      { "name": "location_id", "type": "text" },
-      { "name": "description", "type": "text" }
+      {
+        "name": "actor_user_id",
+        "type": "text"
+      },
+      {
+        "name": "actor_email",
+        "type": "text"
+      },
+      {
+        "name": "actor_name",
+        "type": "text"
+      },
+      {
+        "name": "action_type",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "create",
+          "update",
+          "delete",
+          "validate",
+          "post",
+          "login",
+          "export",
+          "sync",
+          "recalc",
+          "approve",
+          "reject"
+        ]
+      },
+      {
+        "name": "entity_type",
+        "type": "text"
+      },
+      {
+        "name": "entity_id",
+        "type": "text"
+      },
+      {
+        "name": "entity_number",
+        "type": "text"
+      },
+      {
+        "name": "before_json",
+        "type": "json",
+        "maxSize": 5242880
+      },
+      {
+        "name": "after_json",
+        "type": "json",
+        "maxSize": 5242880
+      },
+      {
+        "name": "metadata_json",
+        "type": "json",
+        "maxSize": 5242880
+      },
+      {
+        "name": "ip_address",
+        "type": "text"
+      },
+      {
+        "name": "location_id",
+        "type": "text"
+      },
+      {
+        "name": "description",
+        "type": "text"
+      }
     ]
   },
   {
     "name": "app_settings",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "scope", "type": "select", "required": true, "maxSelect": 1, "values": ["global", "location"] },
-      { "name": "scope_id", "type": "text" },
-      { "name": "key", "type": "text", "required": true },
-      { "name": "value_json", "type": "json" },
-      { "name": "description", "type": "text" }
+      {
+        "name": "scope",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "global",
+          "location"
+        ]
+      },
+      {
+        "name": "scope_id",
+        "type": "text"
+      },
+      {
+        "name": "key",
+        "type": "text"
+      },
+      {
+        "name": "value_json",
+        "type": "json",
+        "maxSize": 5242880
+      },
+      {
+        "name": "description",
+        "type": "text"
+      }
     ]
   },
   {
     "name": "integration_sync_states",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "integration_type", "type": "select", "maxSelect": 1, "values": ["tpv", "email_ingestion", "ocr", "notifications", "whatsapp"] },
-      { "name": "location_id", "type": "text" },
-      { "name": "key", "type": "text", "required": true },
-      { "name": "value_json", "type": "json" },
-      { "name": "last_sync_at", "type": "text" },
-      { "name": "last_sync_status", "type": "select", "maxSelect": 1, "values": ["success", "error", "partial"] },
-      { "name": "error_message", "type": "text" }
+      {
+        "name": "integration_type",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "tpv",
+          "email_ingestion",
+          "ocr",
+          "notifications",
+          "whatsapp"
+        ]
+      },
+      {
+        "name": "location_id",
+        "type": "text"
+      },
+      {
+        "name": "key",
+        "type": "text"
+      },
+      {
+        "name": "value_json",
+        "type": "json",
+        "maxSize": 5242880
+      },
+      {
+        "name": "last_sync_at",
+        "type": "text"
+      },
+      {
+        "name": "last_sync_status",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "success",
+          "error",
+          "partial"
+        ]
+      },
+      {
+        "name": "error_message",
+        "type": "text"
+      }
     ]
   },
   {
     "name": "system_errors",
     "type": "base",
-    "listRule": "",
-    "viewRule": "",
-    "createRule": "",
-    "updateRule": "",
-    "deleteRule": "",
+    "listRule": null,
+    "viewRule": null,
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
     "fields": [
-      { "name": "workflow_name", "type": "text" },
-      { "name": "function_name", "type": "text" },
-      { "name": "execution_id", "type": "text" },
-      { "name": "severity", "type": "select", "maxSelect": 1, "values": ["low", "medium", "high", "critical"] },
-      { "name": "error_message", "type": "text", "required": true },
-      { "name": "error_stack", "type": "text" },
-      { "name": "input_data_json", "type": "json" },
-      { "name": "context_json", "type": "json" },
-      { "name": "status", "type": "select", "maxSelect": 1, "values": ["Open", "Acknowledged", "Resolved"] },
-      { "name": "resolved_at", "type": "text" },
-      { "name": "resolved_by_user_id", "type": "text" },
-      { "name": "location_id", "type": "text" }
+      {
+        "name": "workflow_name",
+        "type": "text"
+      },
+      {
+        "name": "function_name",
+        "type": "text"
+      },
+      {
+        "name": "execution_id",
+        "type": "text"
+      },
+      {
+        "name": "severity",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "low",
+          "medium",
+          "high",
+          "critical"
+        ]
+      },
+      {
+        "name": "error_message",
+        "type": "text"
+      },
+      {
+        "name": "error_stack",
+        "type": "text"
+      },
+      {
+        "name": "input_data_json",
+        "type": "json",
+        "maxSize": 5242880
+      },
+      {
+        "name": "context_json",
+        "type": "json",
+        "maxSize": 5242880
+      },
+      {
+        "name": "status",
+        "type": "select",
+        "maxSelect": 1,
+        "values": [
+          "Open",
+          "Acknowledged",
+          "Resolved"
+        ]
+      },
+      {
+        "name": "resolved_at",
+        "type": "text"
+      },
+      {
+        "name": "resolved_by_user_id",
+        "type": "text"
+      },
+      {
+        "name": "location_id",
+        "type": "text"
+      }
     ]
   }
 ]

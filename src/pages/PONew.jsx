@@ -50,7 +50,7 @@ export default function PONew({ selectedLocationId }) {
 
   const createPOMutation = useMutation({
     mutationFn: async () => {
-      const poCount = await marginbites.entities.PurchaseOrder.list('-created_date', 1);
+      const poCount = await marginbites.entities.PurchaseOrder.list('-created', 1);
       const poNum = poCount.length > 0 ? parseInt(poCount[0].po_number?.split('-')[2] || '0') + 1 : 1;
 
       const totalAmount = lines.reduce((sum, l) => sum + (l.ordered_qty * l.unit_price), 0);

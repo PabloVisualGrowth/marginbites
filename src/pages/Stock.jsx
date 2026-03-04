@@ -65,8 +65,7 @@ export default function Stock({ selectedLocationId, user }) {
       if (!selectedLocationId) return [];
       return marginbites.entities.LedgerMovement.filter(
         { location_id: selectedLocationId },
-        '-movement_date',
-        100
+        { sort: '-movement_date', perPage: 100 }
       );
     },
     enabled: !!selectedLocationId && activeTab === 'movements'
@@ -77,7 +76,7 @@ export default function Stock({ selectedLocationId, user }) {
       const stock = stockData.find(s => s.product_id === productId);
       const movementType = quantity >= 0 ? 'ADJUSTMENT_IN' : 'ADJUSTMENT_OUT';
       
-      const movCount = await marginbites.entities.LedgerMovement.list('-created_date', 1);
+      const movCount = await marginbites.entities.LedgerMovement.list('-created', 1);
       const movNum = movCount.length > 0 ? parseInt(movCount[0].movement_number?.split('-')[2] || '0') + 1 : 1;
 
       await marginbites.entities.LedgerMovement.create({

@@ -73,7 +73,7 @@ export default function Inventories({ selectedLocationId, user }) {
       if (!selectedLocationId) return [];
       const filters = { location_id: selectedLocationId };
       if (statusFilter !== 'all') filters.status = statusFilter;
-      return marginbites.entities.Inventory.filter(filters, '-started_at', 50);
+      return marginbites.entities.Inventory.filter(filters, { sort: '-started_at', perPage: 50 });
     },
     enabled: !!selectedLocationId
   });
@@ -90,7 +90,7 @@ export default function Inventories({ selectedLocationId, user }) {
 
   const createInventoryMutation = useMutation({
     mutationFn: async (data) => {
-      const invCount = await marginbites.entities.Inventory.list('-created_date', 1);
+      const invCount = await marginbites.entities.Inventory.list('-created', 1);
       const invNum = invCount.length > 0 ? parseInt(invCount[0].inventory_number?.split('-')[2] || '0') + 1 : 1;
 
       const inventory = await marginbites.entities.Inventory.create({
@@ -152,7 +152,7 @@ export default function Inventories({ selectedLocationId, user }) {
 
   const createExpressFromAnomaliesMutation = useMutation({
     mutationFn: async () => {
-      const invCount = await marginbites.entities.Inventory.list('-created_date', 1);
+      const invCount = await marginbites.entities.Inventory.list('-created', 1);
       const invNum = invCount.length > 0 ? parseInt(invCount[0].inventory_number?.split('-')[2] || '0') + 1 : 1;
 
       const inventory = await marginbites.entities.Inventory.create({

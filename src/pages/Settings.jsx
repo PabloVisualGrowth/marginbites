@@ -60,7 +60,7 @@ export default function Settings({ selectedLocationId, user }) {
 
   const { data: products = [] } = useQuery({
     queryKey: ['products'],
-    queryFn: () => marginbites.entities.Product.list('-created_date', 100),
+    queryFn: () => marginbites.entities.Product.list('-created', 100),
   });
 
   const [localSettings, setLocalSettings] = useState({
